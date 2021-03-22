@@ -11,7 +11,7 @@ const store = createStore({
         messageStore: messagesModule
     },
     state() {
-        return { userId: 'user1', libraryId: 'lib1' }
+        return { userId: 'usr1', libraryId: 'lib1' }
     },
     getters: {
         userId(state) {

@@ -1,8 +1,10 @@
 export default {
     uploadBeat(context, data) {
+        console.log(context);
         const newBeat = {
-            id: context.rootGetters.userId,
-            libraryID: context.rootGetters.libraryId,
+            id: "1234a",
+            ownerId: context.rootGetters["userStore/userId"],
+            libraryID: context.rootGetters["userStore/libraryId"],
             title: data.formTitle,
             artist: 'LHK',
             createdAt: '30/03/2021',

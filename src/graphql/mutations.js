@@ -17,10 +17,10 @@ export const createLibrary = /* GraphQL */ `
           id
           libraryID
           title
-          ownerId
           createdAt
           updatedAt
           public
+          bpm
           schedule
           free
           owner
@@ -46,10 +46,10 @@ export const updateLibrary = /* GraphQL */ `
           id
           libraryID
           title
-          ownerId
           createdAt
           updatedAt
           public
+          bpm
           schedule
           free
           owner
@@ -75,10 +75,10 @@ export const deleteLibrary = /* GraphQL */ `
           id
           libraryID
           title
-          ownerId
           createdAt
           updatedAt
           public
+          bpm
           schedule
           free
           owner
@@ -97,7 +97,10 @@ export const createBeat = /* GraphQL */ `
       id
       libraryID
       title
-      ownerId
+      artist {
+        artistId
+        artistName
+      }
       createdAt
       updatedAt
       thumbnail {
@@ -127,7 +130,7 @@ export const createBeat = /* GraphQL */ `
         genre2
         genre3
       }
-      tag {
+      tags {
         tag1
         tag2
         tag3
@@ -140,6 +143,7 @@ export const createBeat = /* GraphQL */ `
         UnlimitedPrice
         ExclusivePrice
       }
+      bpm
       schedule
       split {
         split1 {
@@ -173,7 +177,10 @@ export const updateBeat = /* GraphQL */ `
       id
       libraryID
       title
-      ownerId
+      artist {
+        artistId
+        artistName
+      }
       createdAt
       updatedAt
       thumbnail {
@@ -203,7 +210,7 @@ export const updateBeat = /* GraphQL */ `
         genre2
         genre3
       }
-      tag {
+      tags {
         tag1
         tag2
         tag3
@@ -216,6 +223,7 @@ export const updateBeat = /* GraphQL */ `
         UnlimitedPrice
         ExclusivePrice
       }
+      bpm
       schedule
       split {
         split1 {
@@ -249,7 +257,10 @@ export const deleteBeat = /* GraphQL */ `
       id
       libraryID
       title
-      ownerId
+      artist {
+        artistId
+        artistName
+      }
       createdAt
       updatedAt
       thumbnail {
@@ -279,7 +290,7 @@ export const deleteBeat = /* GraphQL */ `
         genre2
         genre3
       }
-      tag {
+      tags {
         tag1
         tag2
         tag3
@@ -292,6 +303,7 @@ export const deleteBeat = /* GraphQL */ `
         UnlimitedPrice
         ExclusivePrice
       }
+      bpm
       schedule
       split {
         split1 {

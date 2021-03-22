@@ -8,7 +8,7 @@
         <message-item
           v-for="message in recievedMessages"
           :key="message.id"
-          :username="message.recieverUsername"
+          :username="message.senderUsername"
           :message="message.messageBody"
         ></message-item>
       </ul>
@@ -25,7 +25,7 @@ import MessageUser from "../../components/messages/MessageUser.vue";
 export default {
   computed: {
     recievedMessages() {
-      return this.$store.getters["messageStore/messages"];
+      return this.$store.getters["messageStore/getMessagesForUser"];
     },
     hasRequests() {
       return this.$store.getters["messageStore/hasMessages"];
