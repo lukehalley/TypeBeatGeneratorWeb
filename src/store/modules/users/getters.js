@@ -5,7 +5,4 @@ export default {
     username(state) {
         return state.username
     },
-    libraryId(state) {
-        return state.libraryId
-    }
 };

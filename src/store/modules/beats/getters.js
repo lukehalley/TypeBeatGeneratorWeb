@@ -1,4 +1,5 @@
 export default {
+    // State removed for now as param.
     beats(state) {
         return state.beats
     },

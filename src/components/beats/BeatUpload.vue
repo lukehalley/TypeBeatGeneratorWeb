@@ -52,6 +52,7 @@
           type="checkbox"
           value="Hip Hop"
           id="beatTagHipHop"
+          checked
         />
       </div>
       <div>
@@ -61,6 +62,7 @@
           type="checkbox"
           value="Trap"
           id="beatTagTrap"
+          checked
         />
       </div>
       <div>
@@ -70,6 +72,7 @@
           type="checkbox"
           value="Alt"
           id="beatTagAlt"
+          checked
         />
       </div>
       <p v-if="!beatTags.valid">At least one beat tag must be selected!</p>
@@ -84,11 +87,11 @@ export default {
   emits: ["upload-beat"],
   data() {
     return {
-      beatTitle: { value: "", valid: true },
-      beatBPM: { value: 0, valid: true },
-      beatMp3Price: { value: 0, valid: true },
-      beatWavPrice: { value: 0, valid: true },
-      beatZipPrice: { value: 0, valid: true },
+      beatTitle: { value: "Test", valid: true },
+      beatBPM: { value: 155, valid: true },
+      beatMp3Price: { value: 100, valid: true },
+      beatWavPrice: { value: 250, valid: true },
+      beatZipPrice: { value: 500, valid: true },
       beatTags: { value: [], valid: true },
       formIsValid: true,
     };
@@ -143,17 +146,16 @@ export default {
       this.validateForm();
 
       if (this.formIsValid) {
-        var priceArray = [];
-        priceArray.push(
-          this.beatMp3Price,
-          this.beatWavPrice,
-          this.beatZipPrice
-        );
+        var prices = {
+          mp3Price: this.beatMp3Price.value,
+          wavPrice: this.beatWavPrice.value,
+          zipPrice: this.beatZipPrice.value,
+        };
         const formData = {
-          formTitle: this.beatTitle.value,
-          formBPM: this.beatBPM.value,
-          formPrice: priceArray.value,
-          formTags: this.beatTags.value,
+          title: this.beatTitle.value,
+          bpm: this.beatBPM.value,
+          prices: prices,
+          tags: this.beatTags.value,
         };
         this.$emit("upload-beat", formData);
       } else {
