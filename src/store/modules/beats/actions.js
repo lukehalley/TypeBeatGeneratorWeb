@@ -89,12 +89,12 @@ export default {
             await promise;
         } catch (error) {
             // Print out the actual error given back to us.
-            console.log(error.errors[0].message);
+            console.error(error.errors[0].message);
 
             // If the error is because the request was cancelled we can confirm here.
             if (API.isCancel(error)) {
                 // handle user cancellation logic.
-                console.log(error.message);
+                console.error(error.message);
             }
         }
 
@@ -116,6 +116,16 @@ export default {
 
             for (const key in recievedBeats) {
 
+                // Get the beats tags.
+                var tags = {
+                    tag1: recievedBeats[key].tags.tag1,
+                    tag2: recievedBeats[key].tags.tag2,
+                    tag3: recievedBeats[key].tags.tag3
+                }
+
+                // Remove any null tags.
+                let cleanedTags = Object.entries(tags).reduce((a, [k, v]) => (v == null ? a : (a[k] = v, a)), {})
+
                 const beat = {
                     id: recievedBeats[key].id,
                     title: recievedBeats[key].title,
@@ -133,11 +143,7 @@ export default {
                         genre2: recievedBeats[key].genre.genre2,
                         genre3: recievedBeats[key].genre.genre3
                     },
-                    tags: {
-                        tag1: recievedBeats[key].tags.tag1,
-                        tag2: recievedBeats[key].tags.tag2,
-                        tag3: recievedBeats[key].tags.tag3
-                    },
+                    tags: cleanedTags,
                     public: true,
                     price: {
                         MP3Price: recievedBeats[key].price.MP3Price,
@@ -159,14 +165,13 @@ export default {
             // Add the fetched beats to our local list of Beats.
             context.commit('setBeatsLocally', newBeats)
         } catch (error) {
-            console.log("In error");
             // Print out the actual error given back to us.
-            console.log(error);
+            console.error(error);
 
             // If the error is because the request was cancelled we can confirm here.
             if (API.isCancel(error)) {
                 // handle user cancellation logic.
-                console.log(error.message);
+                console.error(error.message);
             }
         }
 
