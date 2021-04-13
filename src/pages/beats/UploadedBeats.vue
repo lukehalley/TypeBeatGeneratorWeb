@@ -6,7 +6,7 @@
     <base-card>
       <div class="controls">
         <base-button @click="loadBeats">Refresh</base-button>
-        <base-button link to="/register">Upload A Beat</base-button>
+        <base-button link to="/upload">Upload A Beat</base-button>
       </div>
       <div v-if="isLoading">
         <base-spinner></base-spinner>
@@ -45,6 +45,7 @@ export default {
         Alt: true,
       },
       isLoading: false,
+      error: null,
     };
   },
   computed: {
@@ -110,7 +111,14 @@ export default {
     },
     async loadBeats() {
       this.isLoading = true;
-      await this.$store.dispatch("beatStore/getBeats");
+      try {
+        await this.$store.dispatch("beatStore/getBeats");
+      } catch (err) {
+        this.error =
+          err.message ||
+          "Something went wrong while we were fetching your beats!";
+      }
+
       this.isLoading = false;
     },
   },
