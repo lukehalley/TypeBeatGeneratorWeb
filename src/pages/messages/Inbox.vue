@@ -1,21 +1,26 @@
 <template>
-  <section>
-    <base-card>
-      <header>
-        <h2>Inbox</h2>
-      </header>
-      <ul v-if="hasRequests">
-        <message-item
-          v-for="message in recievedMessages"
-          :key="message.id"
-          :username="message.senderUsername"
-          :message="message.messageBody"
-        ></message-item>
-      </ul>
-      <h3 v-else>No Messages Yet!</h3>
-    </base-card>
-  </section>
-  <message-user></message-user>
+  <div>
+    <section>
+      <base-card>
+        <header>
+          <h2>Inbox</h2>
+        </header>
+        <div v-if="isLoading">
+          <base-spinner></base-spinner>
+        </div>
+        <ul v-else-if="hasMessages && !isLoading">
+          <message-item
+              v-for="message in recievedMessages"
+              :key="message.id"
+              :username="message.senderUsername"
+              :message="message.messageBody"
+          ></message-item>
+        </ul>
+        <h3 v-else>No Messages Yet!</h3>
+      </base-card>
+    </section>
+    <message-user></message-user>
+  </div>
 </template>
 
 <script>
@@ -25,9 +30,9 @@ import MessageUser from "../../components/messages/MessageUser.vue";
 export default {
   computed: {
     recievedMessages() {
-      return this.$store.getters["messageStore/getMessagesForUser"];
+      return this.$store.getters["messageStore/getMessages"];
     },
-    hasRequests() {
+    hasMessages() {
       return this.$store.getters["messageStore/hasMessages"];
     },
   },
@@ -35,6 +40,30 @@ export default {
     MessageItem,
     MessageUser,
   },
+  data() {
+    return {
+      isLoading: false,
+    }
+  },
+  created() {
+    this.loadMessages();
+  },
+  methods: {
+    async loadMessages() {
+      this.isLoading = true;
+      try {
+        await this.$store.dispatch("messageStore/getMessages");
+      } catch (err) {
+        this.error =
+            err.message ||
+            "Something went wrong while we were fetching your messages!";
+      }
+      this.isLoading = false;
+    },
+    handleError() {
+      this.error = null;
+    }
+  }
 };
 </script>
 

@@ -1,5 +1,5 @@
-import { API } from 'aws-amplify';
-import { createBeat } from '@/graphql/mutations';
+import {API} from 'aws-amplify';
+import {createBeat} from '@/graphql/mutations';
 import * as queries from '@/graphql/queries';
 
 function cleanTags(tagObject) {
@@ -9,8 +9,8 @@ function cleanTags(tagObject) {
 export default {
     async uploadBeat(context, formData) {
         // Get current user id and username.
-        const userId = context.rootGetters["userStore/userId"]
-        const username = context.rootGetters["userStore/username"]
+        const userId = context.rootGetters["authStore/userId"]
+        const username = context.rootGetters["authStore/username"]
 
         // Get the beats tags.
         var tags = {
@@ -88,10 +88,13 @@ export default {
             free: false,
         }
 
+        console.log("Beat: ")
+        console.log(newBeat)
+
         // Create the promise were going to use to create the new beat.
         const promise = API.graphql({
             query: createBeat,
-            variables: { input: newBeat },
+            variables: {input: newBeat},
         });
 
         // Create the beat, catch any errors.
@@ -100,22 +103,18 @@ export default {
                 console.log(result);
 
                 // Add the newely created beat to our local list of Beats.
-                context.commit('addBeatLocally', { ...newBeat, id: userId })
+                context.commit('addBeatLocally', {...newBeat, id: userId})
             });
         } catch (error) {
-            // Print out the actual error given back to us.
-            console.error(error.errors[0].message);
-
-            // If the error is because the request was cancelled we can confirm here.
-            if (API.isCancel(error)) {
-                // handle user cancellation logic.
-                console.error(error.message);
-            }
+            // If uploading our beat caused an error, throw it.
+            // When an error is thrown, the component which dispatched the action it can handle it.
+            console.log(error)
+            throw new Error(error.errors[0].message || "Failed to upload beat!")
         }
     },
     async getBeats(context) {
         // Fetch the beats.
-        const fetchBeats = API.graphql({ query: queries.listBeats })
+        const fetchBeats = API.graphql({query: queries.listBeats})
 
         // Execute the get request, catch any errors.
         try {
@@ -180,13 +179,8 @@ export default {
             });
         } catch (error) {
             // If getting our beats caused an error, throw it.
-            const errorToThrow = new Error(error.errors[0].message || "Failed to load beats!")
-
             // When an error is thrown, the component which dispatched the action it can handle it.
-            throw errorToThrow
+            throw new Error(error.errors[0].message || "Failed to load beats!")
         }
-
-
-
     }
 };
