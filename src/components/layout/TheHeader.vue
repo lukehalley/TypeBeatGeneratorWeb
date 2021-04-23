@@ -17,10 +17,27 @@
         <li>
           <amplify-sign-out button-text="Sign Out"></amplify-sign-out>
         </li>
+        <!--        <li v-else>-->
+        <!--          <router-link to="/auth">Sign In</router-link>-->
+        <!--        </li>-->
       </ul>
     </nav>
   </header>
 </template>
+
+<script>
+export default {
+  data() {
+    return {
+      // isUserSignedIn: null,
+    };
+  },
+  mounted() {
+    // this.isUserSignedIn = this.$store.getters["authStore/signedIn"];
+    // console.log("isUserSignedIn " + this.isUserSignedIn)
+  },
+}
+</script>
 
 <style scoped>
 header {

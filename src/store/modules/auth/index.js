@@ -8,6 +8,8 @@ export default {
         return {
             userId: null,
             username: null,
+            email: null,
+            signedIn: false,
             authState: null,
             authData: null
         }
