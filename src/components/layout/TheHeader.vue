@@ -14,12 +14,6 @@
         <li>
           <router-link to="/inbox">Inbox</router-link>
         </li>
-        <li>
-          <amplify-sign-out button-text="Sign Out"></amplify-sign-out>
-        </li>
-        <!--        <li v-else>-->
-        <!--          <router-link to="/auth">Sign In</router-link>-->
-        <!--        </li>-->
       </ul>
     </nav>
   </header>
@@ -28,9 +22,7 @@
 <script>
 export default {
   data() {
-    return {
-      // isUserSignedIn: null,
-    };
+    return {};
   },
   mounted() {
     // this.isUserSignedIn = this.$store.getters["authStore/signedIn"];

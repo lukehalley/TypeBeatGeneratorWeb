@@ -1,32 +1,79 @@
-import {onAuthUIStateChange} from '@aws-amplify/ui-components'
+import {Auth} from 'aws-amplify';
 
 export default {
-    // checkUserAuthState(context) {
-    //     context.commit('setUserAuthState')
-    // },
-    signUp(context) {
-        onAuthUIStateChange((authState, authData) => {
-            // console.log("Checking Auth Status...")
-            // if (authState === "signin") {
-            //     state.signedIn = false
-            //     state.authState = authState;
-            //     state.authData = authData;
-            // } else if (authState === "signedin") {
-            //     state.signedIn = true
-            //     state.userId = authData.attributes.sub;
-            //     state.username = authData.username;
-            //     state.email = authData.attributes.email;
-            //     state.authState = authState;
-            //     state.authData = authData;
-            // }
-            context.commit('setUser', {
-                userId: authData.attributes.sub,
-                username: authData.username,
-                email: authData.attributes.email,
-                authState: authState,
-                authData: authData
-            })
-        })
+    async signUp(context, payload) {
+        try {
 
+            // Create the User sign up promise.
+            const signUpPromise = Auth.signUp({
+                username: payload.username,
+                password: payload.password,
+                attributes: {
+                    email: payload.email
+                }
+            });
+
+
+            // Sign up the user, catch any errors.
+            try {
+                await signUpPromise.then(function (user) {
+                    console.log(user);
+
+                    // Add the newly created user to our local store.
+                    context.commit('setUser', {
+                        user: user.user,
+                        userConfirmed: user.userConfirmed,
+                        userId: user.userSub,
+                        username: user.user.username,
+                        email: user.user.email,
+                    })
+
+                });
+            } catch (error) {
+                // If signing up our user caused an error, throw it.
+                // When an error is thrown, the component which dispatched the action it can handle it.
+                console.log(error.message)
+                throw new Error(error.message || "Failed to sign up!")
+            }
+
+
+        } catch (error) {
+            console.log('error signing up:', error);
+        }
+    },
+    async confirmSignUp(context, payload) {
+
+        // Create the account validation promise.
+        const validationPromise = Auth.confirmSignUp(
+            payload.username,
+            payload.code
+        );
+
+        // Validate the account, catch any errors.
+        try {
+            await validationPromise.then(function (result) {
+                console.log(result);
+
+                // Add the newly created user to our local store.
+                // context.commit('setUser', {
+                //     user: user.user,
+                //     userConfirmed: user.userConfirmed,
+                //     userId: user.userSub,
+                //     username: user.user.username,
+                //     email: user.user.email,
+                // })
+
+            });
+        } catch (error) {
+            // If signing up our user caused an error, throw it.
+            // When an error is thrown, the component which dispatched the action it can handle it.
+            console.log(error.message)
+            throw new Error(error.message || "Error Validating Account!")
+        }
+
+    },
+    async login(context, payload) {
+        console.log(context, payload)
     }
+
 };
