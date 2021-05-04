@@ -8,7 +8,6 @@
     </section>
     <section>
       <base-card>
-        <!--<base-button mode="outline" @click="testError">Error</base-button>-->
         <div class="controls">
           <base-button @click="loadBeats">Refresh</base-button>
           <base-button link to="/upload">Upload A Beat</base-button>
