@@ -32,6 +32,7 @@ export default {
       this.validateMessage();
       if (this.formIsValid) {
         const formData = {
+          recipientUserId: "usr1",
           recipientUsername: this.username.value,
           messageBody: this.message.value,
         };

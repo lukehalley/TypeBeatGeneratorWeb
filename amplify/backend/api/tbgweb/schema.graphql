@@ -1,3 +1,4 @@
+# BEAT SCHEMA
 type Library @model @auth(rules: [{ allow: owner } { allow: public, operations: [read] }]) {
   id: ID!
   name: String!
@@ -70,4 +71,15 @@ type Split {
   split2: Collaborator
   split3: Collaborator
   split4: Collaborator
+}
+
+# MESSAGES SCHEMA
+type Message {
+  id: ID!,
+  senderId: String!,
+  senderUsername: String!,
+  recieverId: String!,
+  recieverUsername: String!,
+  messageBody: String!,
+  createdAt: AWSDateTime!
 }

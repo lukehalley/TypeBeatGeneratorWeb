@@ -14,10 +14,10 @@ export const getLibrary = /* GraphQL */ `
           id
           libraryID
           title
-          ownerId
           createdAt
           updatedAt
           public
+          bpm
           schedule
           free
           owner
@@ -54,7 +54,10 @@ export const getBeat = /* GraphQL */ `
       id
       libraryID
       title
-      ownerId
+      artist {
+        artistId
+        artistName
+      }
       createdAt
       updatedAt
       thumbnail {
@@ -84,7 +87,7 @@ export const getBeat = /* GraphQL */ `
         genre2
         genre3
       }
-      tag {
+      tags {
         tag1
         tag2
         tag3
@@ -97,6 +100,7 @@ export const getBeat = /* GraphQL */ `
         UnlimitedPrice
         ExclusivePrice
       }
+      bpm
       schedule
       split {
         split1 {
@@ -132,7 +136,10 @@ export const listBeats = /* GraphQL */ `
         id
         libraryID
         title
-        ownerId
+        artist {
+          artistId
+          artistName
+        }
         createdAt
         updatedAt
         thumbnail {
@@ -145,7 +152,7 @@ export const listBeats = /* GraphQL */ `
           genre2
           genre3
         }
-        tag {
+        tags {
           tag1
           tag2
           tag3
@@ -158,6 +165,7 @@ export const listBeats = /* GraphQL */ `
           UnlimitedPrice
           ExclusivePrice
         }
+        bpm
         schedule
         free
         owner

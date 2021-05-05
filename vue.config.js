@@ -1,4 +1,13 @@
+const path = require('path');
+
 module.exports = {
+  configureWebpack: {
+    resolve: {
+      alias: {
+        '@': path.resolve('src'),
+      }
+    },
+  },
   chainWebpack: config => {
     config.module
       .rule('vue')

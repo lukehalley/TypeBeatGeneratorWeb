@@ -8,8 +8,9 @@ export default {
         return {
             beats: [
                 {
-                    id: 1,
-                    libraryID: 1,
+                    id: "1a",
+                    ownerId: "usr1",
+                    libraryID: "lib1",
                     title: 'REGARDLESS++ (Prod. By LHK)',
                     artist: 'LHK',
                     createdAt: '30/03/2021',
@@ -26,8 +27,9 @@ export default {
                     free: false,
                 },
                 {
-                    id: 2,
-                    libraryID: 2,
+                    id: "2a",
+                    ownerId: "usr1",
+                    libraryID: "lib1",
                     title: '4PF++ (Prod. By LHK) 148BPM',
                     artist: 'LHK',
                     createdAt: '30/03/2020',
@@ -44,8 +46,9 @@ export default {
                     free: false,
                 },
                 {
-                    id: 3,
-                    libraryID: 3,
+                    id: "3a",
+                    ownerId: "usr1",
+                    libraryID: "lib1",
                     title: 'INDIE CUNT++ (Prod. By LHK) 138BPM',
                     artist: 'LHK',
                     createdAt: '30/03/2020',
