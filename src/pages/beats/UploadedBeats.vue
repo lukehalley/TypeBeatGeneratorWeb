@@ -8,7 +8,10 @@
         <base-button @click="loadBeats">Refresh</base-button>
         <base-button link to="/register">Upload A Beat</base-button>
       </div>
-      <div v-if="hasBeats">
+      <div v-if="isLoading">
+        <base-spinner></base-spinner>
+      </div>
+      <div v-else-if="hasBeats">
         <ul>
           <beat-item
             :id="beat.id"
@@ -34,27 +37,6 @@ import BeatItem from "../../components/beats/BeatItem.vue";
 import BeatFilter from "../../components/beats/BeatFilter.vue";
 
 export default {
-  computed: {
-    filteredBeats() {
-      const beats = this.$store.getters["beatStore/beats"];
-      console.log(beats);
-      return beats.filter((beat) => {
-        if (this.activeFilters.HipHop && beat.tags.tag1.includes("Hip Hop")) {
-          return true;
-        }
-        if (this.activeFilters.Trap && beat.tags.tag2.includes("Trap")) {
-          return true;
-        }
-        if (this.activeFilters.Alt && beat.tags.tag3.includes("Alt")) {
-          return true;
-        }
-        return false;
-      });
-    },
-    hasBeats() {
-      return this.$store.getters["beatStore/hasBeats"];
-    },
-  },
   data() {
     return {
       activeFilters: {
@@ -62,7 +44,58 @@ export default {
         Trap: true,
         Alt: true,
       },
+      isLoading: false,
     };
+  },
+  computed: {
+    filteredBeats() {
+      const beats = this.$store.getters["beatStore/beats"];
+      return beats.filter((beat) => {
+        if (beat.tags.tag1) {
+          if (this.activeFilters.HipHop && beat.tags.tag1.includes("Hip Hop")) {
+            return true;
+          } else if (
+            this.activeFilters.Trap &&
+            beat.tags.tag1.includes("Trap")
+          ) {
+            return true;
+          } else if (this.activeFilters.Alt && beat.tags.tag1.includes("Alt")) {
+            return true;
+          }
+        }
+
+        if (beat.tags.tag2) {
+          if (this.activeFilters.HipHop && beat.tags.tag2.includes("Hip Hop")) {
+            return true;
+          } else if (
+            this.activeFilters.Trap &&
+            beat.tags.tag2.includes("Trap")
+          ) {
+            return true;
+          } else if (this.activeFilters.Alt && beat.tags.tag2.includes("Alt")) {
+            return true;
+          }
+        }
+
+        if (beat.tags.tag3) {
+          if (this.activeFilters.HipHop && beat.tags.tag3.includes("Hip Hop")) {
+            return true;
+          } else if (
+            this.activeFilters.Trap &&
+            beat.tags.tag3.includes("Trap")
+          ) {
+            return true;
+          } else if (this.activeFilters.Alt && beat.tags.tag3.includes("Alt")) {
+            return true;
+          }
+        }
+
+        return false;
+      });
+    },
+    hasBeats() {
+      return !this.isLoading && this.$store.getters["beatStore/hasBeats"];
+    },
   },
   components: {
     BeatItem,
@@ -75,8 +108,10 @@ export default {
     setFilters(updatedFilters) {
       this.activeFilters = updatedFilters;
     },
-    loadBeats() {
-      this.$store.dispatch("beatStore/getBeats");
+    async loadBeats() {
+      this.isLoading = true;
+      await this.$store.dispatch("beatStore/getBeats");
+      this.isLoading = false;
     },
   },
 };

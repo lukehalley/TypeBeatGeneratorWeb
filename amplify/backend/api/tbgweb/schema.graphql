@@ -43,8 +43,8 @@ type Genre {
 
 type Tags {
   tag1: String!
-  tag2: String!
-  tag3: String!
+  tag2: String
+  tag3: String
 }
 
 type Owner {

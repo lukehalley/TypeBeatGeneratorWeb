@@ -8,7 +8,6 @@ export default {
             recieverUsername: data.recipientUsername,
             messageBody: data.messageBody,
         }
-        console.log(newMessage);
         context.commit('sendMessage', newMessage)
     }
 };
