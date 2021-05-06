@@ -1,17 +1,8 @@
 # BEAT SCHEMA
-type Library @model @auth(rules: [{ allow: owner } { allow: public, operations: [read] }]) {
+type Beat @model {
   id: ID!
-  name: String!
-  beats: [Beat] @connection(keyName: "byLibrary", fields: ["id"])
-}
-
-type Beat @model @key(name: "byLibrary", fields: ["libraryID"]) @auth(rules: [{ allow: owner } { allow: public, operations: [read] }]) {
-  id: ID!
-  libraryID: ID!
   title: String!
-  artist: Artist!
-  createdAt: AWSDateTime!
-  updatedAt: AWSDateTime
+  owner: Owner!
   thumbnail: S3Object
   audio: BeatFile!
   genre: Genre!
@@ -56,13 +47,13 @@ type Tags {
   tag3: String!
 }
 
-type Artist {
-  artistId: String!
-  artistName: String!
+type Owner {
+  ownerId: String!
+  ownerUsername: String!
 }
 
 type Collaborator {
-  paypalEmail: String!
+  email: String!
   percentage: Int!
 }
 
@@ -81,5 +72,4 @@ type Message {
   recieverId: String!,
   recieverUsername: String!,
   messageBody: String!,
-  createdAt: AWSDateTime!
 }

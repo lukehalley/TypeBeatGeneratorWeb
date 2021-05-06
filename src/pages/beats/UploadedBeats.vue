@@ -5,7 +5,7 @@
   <section>
     <base-card>
       <div class="controls">
-        <base-button>Refresh</base-button>
+        <base-button @click="loadBeats">Refresh</base-button>
         <base-button link to="/register">Upload A Beat</base-button>
       </div>
       <div v-if="hasBeats">
@@ -37,14 +37,15 @@ export default {
   computed: {
     filteredBeats() {
       const beats = this.$store.getters["beatStore/beats"];
+      console.log(beats);
       return beats.filter((beat) => {
-        if (this.activeFilters.HipHop && beat.tags.includes("Hip Hop")) {
+        if (this.activeFilters.HipHop && beat.tags.tag1.includes("Hip Hop")) {
           return true;
         }
-        if (this.activeFilters.Trap && beat.tags.includes("Trap")) {
+        if (this.activeFilters.Trap && beat.tags.tag2.includes("Trap")) {
           return true;
         }
-        if (this.activeFilters.Alt && beat.tags.includes("Alt")) {
+        if (this.activeFilters.Alt && beat.tags.tag3.includes("Alt")) {
           return true;
         }
         return false;
@@ -67,9 +68,15 @@ export default {
     BeatItem,
     BeatFilter,
   },
+  created() {
+    this.loadBeats();
+  },
   methods: {
     setFilters(updatedFilters) {
       this.activeFilters = updatedFilters;
+    },
+    loadBeats() {
+      this.$store.dispatch("beatStore/getBeats");
     },
   },
 };

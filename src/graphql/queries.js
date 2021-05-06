@@ -1,65 +1,15 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
-export const getLibrary = /* GraphQL */ `
-  query GetLibrary($id: ID!) {
-    getLibrary(id: $id) {
-      id
-      name
-      createdAt
-      updatedAt
-      owner
-      beats {
-        items {
-          id
-          libraryID
-          title
-          createdAt
-          updatedAt
-          public
-          bpm
-          schedule
-          free
-          owner
-        }
-        nextToken
-      }
-    }
-  }
-`;
-export const listLibrarys = /* GraphQL */ `
-  query ListLibrarys(
-    $filter: ModelLibraryFilterInput
-    $limit: Int
-    $nextToken: String
-  ) {
-    listLibrarys(filter: $filter, limit: $limit, nextToken: $nextToken) {
-      items {
-        id
-        name
-        createdAt
-        updatedAt
-        owner
-        beats {
-          nextToken
-        }
-      }
-      nextToken
-    }
-  }
-`;
 export const getBeat = /* GraphQL */ `
   query GetBeat($id: ID!) {
     getBeat(id: $id) {
       id
-      libraryID
       title
-      artist {
-        artistId
-        artistName
+      owner {
+        ownerId
+        ownerUsername
       }
-      createdAt
-      updatedAt
       thumbnail {
         region
         bucket
@@ -104,24 +54,25 @@ export const getBeat = /* GraphQL */ `
       schedule
       split {
         split1 {
-          paypalEmail
+          email
           percentage
         }
         split2 {
-          paypalEmail
+          email
           percentage
         }
         split3 {
-          paypalEmail
+          email
           percentage
         }
         split4 {
-          paypalEmail
+          email
           percentage
         }
       }
       free
-      owner
+      createdAt
+      updatedAt
     }
   }
 `;
@@ -134,14 +85,11 @@ export const listBeats = /* GraphQL */ `
     listBeats(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
         id
-        libraryID
         title
-        artist {
-          artistId
-          artistName
+        owner {
+          ownerId
+          ownerUsername
         }
-        createdAt
-        updatedAt
         thumbnail {
           region
           bucket
@@ -168,7 +116,8 @@ export const listBeats = /* GraphQL */ `
         bpm
         schedule
         free
-        owner
+        createdAt
+        updatedAt
       }
       nextToken
     }
