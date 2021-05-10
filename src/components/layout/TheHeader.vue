@@ -6,9 +6,6 @@
       </h1>
       <ul>
         <li>
-          <router-link to="/users">All Users</router-link>
-        </li>
-        <li>
           <router-link to="/beats">All Beats</router-link>
         </li>
         <li>
@@ -16,6 +13,9 @@
         </li>
         <li>
           <router-link to="/inbox">Inbox</router-link>
+        </li>
+        <li>
+          <amplify-sign-out button-text="Sign Out"></amplify-sign-out>
         </li>
       </ul>
     </nav>

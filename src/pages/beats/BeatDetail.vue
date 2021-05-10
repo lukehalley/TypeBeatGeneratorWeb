@@ -1,12 +1,14 @@
 <template>
-  <section>
-    <base-card>
-      <header>
-        <h2>Edit {{ beatTitle }} Details</h2>
-        <router-view></router-view>
-      </header>
-    </base-card>
-  </section>
+  <div>
+    <section>
+      <base-card>
+        <header>
+          <h2>Edit {{ beatTitle }} Details</h2>
+          <router-view></router-view>
+        </header>
+      </base-card>
+    </section>
+  </div>
 </template>
 
 <script>
@@ -24,7 +26,7 @@ export default {
   },
   created() {
     this.selectedBeat = this.$store.getters["beatStore/beats"].find(
-      (beat) => beat.id === this.id
+        (beat) => beat.id === this.id
     );
   },
 };

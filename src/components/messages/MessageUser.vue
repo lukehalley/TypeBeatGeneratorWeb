@@ -37,8 +37,18 @@ export default {
           messageBody: this.message.value,
         };
         this.$store.dispatch("messageStore/sendMessage", formData);
+        this.loadMessages();
       } else {
         return;
+      }
+    },
+    async loadMessages() {
+      try {
+        await this.$store.dispatch("messageStore/getMessages");
+      } catch (err) {
+        this.error =
+            err.message ||
+            "Something went wrong while we were fetching your messages!";
       }
     },
     validateMessage() {

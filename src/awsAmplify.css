@@ -1,0 +1,10 @@
+:root {
+    --amplify-primary-color: #3d008d;
+    --amplify-primary-tint: #3d008d;
+    --amplify-primary-shade: #3d008d;
+}
+
+amplify-authenticator {
+    --container-height: 0vh;
+    --background-color: #e0573e;
+}
