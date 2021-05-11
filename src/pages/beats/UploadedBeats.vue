@@ -114,8 +114,10 @@ export default {
   },
   created() {
     this.loadBeats();
-    const state = this.$store.getters["authStore/userAuthData"];
-    console.log(state)
+    // const state = this.$store.getters["authStore/username"];
+    // console.log(state)
+    // const e = this.$store.getters["authStore/email"];
+    // console.log(e)
   },
   methods: {
     setFilters(updatedFilters) {
