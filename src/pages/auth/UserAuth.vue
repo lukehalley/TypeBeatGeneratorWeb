@@ -1,109 +1,250 @@
-<!-- eslint-disable vue/no-deprecated-slot-attribute -->
-
 <template>
-  <amplify-authenticator>
-    <amplify-sign-up
-        slot="sign-up"
-        header-text="Sign Up To Beatcloud"
-        username-alias="username"
-        :formFields="signUpFields"
-    ></amplify-sign-up>
-    <amplify-sign-in
-        slot="sign-in"
-        header-text="Sign In To Beatcloud"
-        :formFields="signInFields"
-        username-alias="email"
-    ></amplify-sign-in>
-  </amplify-authenticator>
+  <base-card>
+    <form @submit.prevent="submitForm">
+      <!-- Username Field - Sign Up Mode Only -->
+      <div v-if="authMode === 'signUp'" class="form-control" :class="{ invalid: !username.valid }">
+        <label for="username">Username</label>
+        <input type="username" id="username" v-model.trim="username.value">
+        <p v-if="!username.valid">Please Enter A Valid Username!</p>
+      </div>
+
+      <!-- Email Field - Login & Sign Up Mode Only -->
+      <div v-if="authMode === 'signUp' || authMode === 'signIn'" class="form-control"
+           :class="{ invalid: !email.valid }">
+        <label for="email">Email</label>
+        <input type="email" id="email" v-model.trim="email.value">
+        <p v-if="!email.valid">Please Enter A Valid Email Address!</p>
+      </div>
+
+      <!-- Password Field - Login & Sign Up Mode Only -->
+      <div v-if="authMode === 'signUp' || authMode === 'signIn'" class="form-control"
+           :class="{ invalid: !password.valid }">
+        <label for="password">Password</label>
+        <input type="password" id="password" v-model.trim="password.value">
+        <p v-if="!password.valid">Please Enter A Valid Password!</p>
+      </div>
+
+      <!-- Verification Code Field - Verify Mode Only -->
+      <div v-if="authMode === 'verify'" class="form-control"
+           :class="{ invalid: !verificationCode.valid }">
+        <label for="verify">Verify</label>
+        <input type="password" id="verify" v-model.trim="verificationCode.value">
+        <p v-if="!verificationCode.valid">Please Enter A Valid Verification Code!</p>
+      </div>
+
+      <!-- Submit Button - Login & Sign Up Only -->
+      <base-button v-if="authMode === 'signUp' || authMode === 'signIn'">{{ submitButtonCaption }}</base-button>
+
+      <!-- Submit Button - Login & Sign Up Only -->
+      <base-button v-if="authMode === 'verify'" @click="verifyAccount">Verify</base-button>
+
+      <!-- Email Field - Login & Sign Up Only -->
+      <base-button
+          v-if="authMode === 'signUp' || authMode === 'signIn'"
+          type="button"
+          mode="flat"
+          @click="switchAuthMode">{{ switchAuthButtonCaption }}
+      </base-button>
+    </form>
+  </base-card>
 </template>
 
-<!--<template>-->
-<!--  <div>-->
-<!--    <amplify-authenticator v-if="authState !== 'signedin'">-->
-
-<!--    </amplify-authenticator>-->
-<!--    <div v-if="authState === 'signedin' && user">-->
-<!--      <amplify-sign-out></amplify-sign-out>-->
-<!--      <div>Hello, {{ user.username }}</div>-->
-<!--    </div>-->
-<!--  </div>-->
-<!--</template>-->
-
-
 <script>
-import {onAuthUIStateChange} from '@aws-amplify/ui-components'
-
 export default {
-  mounted() {
-    this.unsubscribeAuth = onAuthUIStateChange((authState, authData) => {
-      this.authState = authState;
-      this.user = authData;
-    })
-  },
   data() {
     return {
-      user: undefined,
-      authState: undefined,
-      unsubscribeAuth: undefined,
-      handleSubmit: undefined,
-      signUpFields: [
-        {
-          type: 'username',
-          label: 'Username',
-          placeholder: 'Enter your username',
-          required: false,
-        },
-        {
-          type: 'email',
-          label: 'Email',
-          placeholder: 'Enter your email address',
-          required: true,
-        },
-        {
-          type: 'password',
-          label: 'Password',
-          placeholder: 'Enter your password',
-          required: true,
-        }
-      ],
-      signInFields: [
-        {
-          type: 'username',
-          label: 'Username',
-          placeholder: 'Enter your username',
-          required: false,
-        },
-        {
-          type: 'password',
-          label: 'Password',
-          placeholder: 'Enter your password',
-          required: true,
-        }
-      ]
+      username: {
+        value: "",
+        valid: true,
+      },
+      email: {
+        value: "",
+        valid: true,
+      },
+      password: {
+        value: "",
+        valid: true,
+      },
+      verificationCode: {
+        value: "",
+        valid: true,
+      },
+      formIsValid: true,
+      authMode: 'signIn',
+      isLoading: false,
+      error: null
     }
   },
-  watch: {
-    // whenever question changes, this function will run
-    user: function (oldAuthState, newAuthState) {
-      console.log("Auth State Changed!")
-      console.log("Old: ", oldAuthState)
-      console.log("New: ", newAuthState)
-    }
+  computed: {
+    submitButtonCaption() {
+      if (this.authMode === 'signIn') {
+        return 'Sign In'
+      } else {
+        return 'Sign Up'
+      }
+    },
+    switchAuthButtonCaption() {
+      if (this.authMode === 'signIn') {
+        return 'Sign Up'
+      } else {
+        return 'Sign In'
+      }
+    },
   },
   methods: {
-    onSubmints(event) {
+    submitForm() {
+      if (this.authMode === 'signIn') {
+        this.validatesignInForm()
 
-      console.log("IT WORKS HOPEFULLY")
-      console.log(event)
-      console.log(this.authState)
-      // event.preventDefault();
+      } else if (this.authMode === 'signUp') {
+        this.validatesignUpForm()
+
+        this.isLoading = true;
+
+        if (this.formIsValid) {
+          this.$store.dispatch('authStore/signUp',
+              {
+                username: this.username.value,
+                email: this.email.value,
+                password: this.password.value
+              }
+          )
+        }
+
+        this.isLoading = false;
+
+        this.authMode = 'verify'
+      }
+    },
+    async verifyAccount() {
+      this.isLoading = true;
+
+      if (this.formIsValid) {
+        this.$store.dispatch('authStore/confirmSignUp',
+            {
+              username: this.username.value,
+              code: this.verificationCode.value,
+            }
+        )
+      }
+
+      this.isLoading = false;
+    },
+    switchAuthMode() {
+      this.resetValidation();
+      if (this.authMode === 'signIn') {
+        this.authMode = 'signUp'
+      } else {
+        this.authMode = 'signIn'
+      }
+    },
+    validatesignInForm() {
+      this.formIsValid = true
+
+      if (this.username.value === "") {
+        this.username.valid = false
+        this.formIsValid = false
+      } else {
+        this.username.valid = true
+        this.formIsValid = true
+      }
+
+      if (this.email.value === "" || !this.email.value.includes("@")) {
+        this.email.valid = false
+        this.formIsValid = false
+      } else {
+        this.email.valid = true
+        this.formIsValid = true
+      }
+
+      if (this.password.value === "" || this.password.value.length < 6) {
+        this.password.valid = false
+        this.formIsValid = false
+      } else {
+        this.password.valid = true
+        this.formIsValid = true
+      }
+    },
+    validatesignUpForm() {
+      this.formIsValid = true
+
+      if (this.username.value === "") {
+        this.username.valid = false
+        this.formIsValid = false
+      } else {
+        this.username.valid = true
+        this.formIsValid = true
+      }
+
+      if (this.email.value === "" || !this.email.value.includes("@")) {
+        this.email.valid = false
+        this.formIsValid = false
+      } else {
+        this.email.valid = true
+        this.formIsValid = true
+      }
+
+      if (this.password.value === "" || this.password.value.length < 6) {
+        this.password.valid = false
+        this.formIsValid = false
+      } else {
+        this.password.valid = true
+        this.formIsValid = true
+      }
+
+    },
+    resetValidation() {
+      this.formIsValid = true
+      this.username.valid = true
+      this.email.valid = true
+      this.password.valid = true
     }
-  },
-  // beforeUnmount() {
-  //   this.unsubscribeAuth();
-  // }
+  }
 }
 </script>
 
 <style scoped>
+form {
+  margin: 1rem;
+  padding: 1rem;
+}
+
+.form-control {
+  margin: 0.5rem 0;
+}
+
+label {
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+  display: block;
+}
+
+input,
+textarea {
+  display: block;
+  width: 100%;
+  font: inherit;
+  border: 1px solid #ccc;
+  padding: 0.15rem;
+}
+
+input:focus,
+textarea:focus {
+  border-color: #3d008d;
+  background-color: #faf6ff;
+  outline: none;
+}
+
+.invalid label {
+  color: red;
+}
+
+.invalid input,
+.invalid textarea {
+  border: 1px solid red;
+}
+
+.actions {
+  text-align: center;
+}
 </style>

@@ -10,11 +10,5 @@ export default {
     },
     signedIn(state) {
         return state.signedIn
-    },
-    userAuthState(state) {
-        return state.authState
-    },
-    userAuthData(state) {
-        return state.authData
     }
 };

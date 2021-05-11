@@ -6,12 +6,13 @@ export default {
     namespaced: true,
     state() {
         return {
+            user: null,
+            userConfirmed: null,
+            userSub: null,
             userId: null,
             username: null,
             email: null,
             signedIn: false,
-            authState: null,
-            authData: null
         }
     },
     mutations,
