@@ -1,6 +1,6 @@
 <template>
   <base-card>
-    <form @submit.prevent="submitForm">
+    <form @submit.prevent="submitAuth">
       <!-- Username Field - Sign Up Mode Only -->
       <div v-if="authMode === 'signUp'" class="form-control" :class="{ invalid: !username.valid }">
         <label for="username">Username</label>
@@ -45,11 +45,16 @@
           mode="flat"
           @click="switchAuthMode">{{ switchAuthButtonCaption }}
       </base-button>
+
+      <div v-if="isLoading">
+        <base-spinner></base-spinner>
+      </div>
     </form>
   </base-card>
 </template>
 
 <script>
+
 export default {
   data() {
     return {
@@ -92,7 +97,7 @@ export default {
     },
   },
   methods: {
-    submitForm() {
+    submitAuth() {
       if (this.authMode === 'signIn') {
         this.validatesignInForm()
 
@@ -129,6 +134,8 @@ export default {
       }
 
       this.isLoading = false;
+
+      this.authMode = 'signIn'
     },
     switchAuthMode() {
       this.resetValidation();
