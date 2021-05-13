@@ -46,6 +46,8 @@
           @click="switchAuthMode">{{ switchAuthButtonCaption }}
       </base-button>
 
+      <p v-if="error">{{ error }}</p>
+
       <div v-if="isLoading">
         <base-spinner></base-spinner>
       </div>
@@ -59,15 +61,15 @@ export default {
   data() {
     return {
       username: {
-        value: "",
+        value: "luke123halley",
         valid: true,
       },
       email: {
-        value: "",
+        value: "luke123halley@gmail.com",
         valid: true,
       },
       password: {
-        value: "",
+        value: "0mkw4st5",
         valid: true,
       },
       verificationCode: {
@@ -99,46 +101,69 @@ export default {
   methods: {
     submitAuth() {
       if (this.authMode === 'signIn') {
+        // Sign In
         this.validatesignInForm()
 
       } else if (this.authMode === 'signUp') {
+        // Sign Up
         this.validatesignUpForm()
 
         this.isLoading = true;
 
         if (this.formIsValid) {
+
           this.$store.dispatch('authStore/signUp',
               {
                 username: this.username.value,
                 email: this.email.value,
                 password: this.password.value
               }
-          )
+          ).then((result) => {
+            console.log(result)
+            this.isLoading = false;
+            this.authMode = 'verify'
+          }).catch((err) => {
+            this.isLoading = false;
+            this.error = err
+          })
+
         }
-
-        this.isLoading = false;
-
-        this.authMode = 'verify'
       }
     },
     async verifyAccount() {
       this.isLoading = true;
-
       if (this.formIsValid) {
+
         this.$store.dispatch('authStore/confirmSignUp',
             {
               username: this.username.value,
               code: this.verificationCode.value,
             }
-        )
+        ).then(() => {
+          this.isLoading = false;
+          this.authMode = 'signIn'
+        }).catch((err) => {
+          this.isLoading = false;
+          this.error = err
+        })
+
+        // try {
+        //   this.$store.dispatch('authStore/confirmSignUp',
+        //       {
+        //         username: this.username.value,
+        //         code: this.verificationCode.value,
+        //       }
+        //   )
+        //   this.isLoading = false;
+        //   this.authMode = 'signIn'
+        // } catch (err) {
+        //   this.error = err.message || "Account Verification Failed - Please Insure You Inputted The Correct Code!"
+        // }
       }
-
-      this.isLoading = false;
-
-      this.authMode = 'signIn'
     },
     switchAuthMode() {
       this.resetValidation();
+      // this.resetForm();
       if (this.authMode === 'signIn') {
         this.authMode = 'signUp'
       } else {
@@ -205,6 +230,13 @@ export default {
       this.username.valid = true
       this.email.valid = true
       this.password.valid = true
+    },
+    resetForm() {
+      this.formIsValid = true
+      this.username.value = ""
+      this.email.value = ""
+      this.password.value = ""
+      this.error = null
     }
   }
 }
