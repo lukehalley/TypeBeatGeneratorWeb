@@ -20,18 +20,17 @@ export default {
         // Create the promise were going to use to create the new message.
         const promise = API.graphql({
             query: createMessage,
-            variables: { input: newMessage },
+            variables: {input: newMessage},
         });
 
         // Create the message, catch any errors.
         try {
             await promise.then(function (result) {
-                console.log(result.data.createMessage);
 
                 const sentMessage = result.data.createMessage
 
                 // Add the newly created message to our local list of messages.
-                context.commit('addMessageLocally', { sentMessage, id: userId })
+                context.commit('addMessageLocally', {sentMessage, id: userId})
             });
         } catch (error) {
             // If creating our message caused an error, throw it.
@@ -41,7 +40,7 @@ export default {
     },
     async getMessages(context) {
         // Fetch the messages.
-        const fetchMessages = API.graphql({ query: queries.listMessages })
+        const fetchMessages = API.graphql({query: queries.listMessages})
 
         // Execute the get request, catch any errors.
         try {

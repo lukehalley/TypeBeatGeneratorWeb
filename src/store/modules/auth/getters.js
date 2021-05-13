@@ -14,7 +14,7 @@ export default {
     email(state) {
         return state.email
     },
-    signedIn(state) {
-        return state.signedIn
+    isAuthenticated(state) {
+        return state.isAuthenticated
     }
 };

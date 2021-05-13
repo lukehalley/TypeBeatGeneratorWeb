@@ -10,7 +10,7 @@
       <base-card>
         <div class="controls">
           <base-button @click="loadBeats">Refresh</base-button>
-          <base-button link to="/upload">Upload A Beat</base-button>
+          <base-button v-if="isAuthenticated" link to="/upload">Upload A Beat</base-button>
         </div>
         <div v-if="isLoading">
           <base-spinner></base-spinner>
@@ -103,6 +103,9 @@ export default {
     },
     hasBeats() {
       return !this.isLoading && this.$store.getters["beatStore/hasBeats"];
+    },
+    isAuthenticated() {
+      return this.$store.getters["authStore/isAuthenticated"];
     },
   },
   components: {

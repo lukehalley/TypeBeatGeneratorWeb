@@ -6,10 +6,7 @@ export default {
         state.userId = payload.userId;
         state.username = payload.user.username;
         state.email = payload.user.email;
-
-        console.log(state.user)
-
-        console.log(state.userId, state.username)
+        state.isAuthenticated = true;
     },
     resetCurrentUser(state) {
         state.user = null;
@@ -18,5 +15,6 @@ export default {
         state.userId = null;
         state.username = null;
         state.email = null;
+        state.isAuthenticated = false;
     }
 }

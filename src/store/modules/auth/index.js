@@ -11,7 +11,7 @@ export default {
             userId: null,
             username: null,
             email: null,
-            signedIn: false,
+            isAuthenticated: false,
         }
     },
     mutations,
