@@ -1,7 +1,7 @@
 import {createRouter, createWebHistory} from 'vue-router'
+import store from "@/store/index";
 
 // User Components
-import UserProfile from '../pages/users/UserProfile'
 import UserAuth from '../pages/auth/UserAuth'
 
 // Beat Components
@@ -11,7 +11,7 @@ import UploadedBeats from '../pages/beats/UploadedBeats'
 
 // Contact Components
 import Inbox from '../pages/messages/Inbox'
-// import MessageUser from '../pages/messages/MessageUser'
+
 // Misc Components
 import NotFound from '../pages/misc/NotFound'
 
@@ -22,24 +22,37 @@ const router = createRouter({
         {path: '/', redirect: '/auth'},
 
         // User Routes
-        {path: '/auth', component: UserAuth},
-        {path: '/auth/:id', component: UserProfile},
+        // {path: '/auth', component: UserAuth},
+        // {path: '/auth/:id', component: UserProfile},
 
         // Beat Routes
         {path: '/beats', component: UploadedBeats},
         {path: '/beats/:id', component: BeatDetail, props: true},
-        {path: '/upload', component: UploadBeat},
+        {path: '/upload', component: UploadBeat, meta: {requiresAuth: true}},
 
         // Account Routes
-        {path: '/auth', component: UserAuth},
+        {path: '/auth', component: UserAuth, meta: {requiresNoAuth: true}},
 
         // Contact Routes
-        {path: '/inbox', component: Inbox},
+        {path: '/inbox', component: Inbox, meta: {requiresAuth: true}},
 
         // 404 Route
         {path: '/:notFound(.*)', component: NotFound},
     ]
 });
+
+// This is run before each navigation, acts as a Route guard.
+router.beforeEach(function (to, _, next) {
+    const userIsAuthenticated = store.getters["authStore/isAuthenticated"];
+
+    if (to.meta.requiresAuth && !userIsAuthenticated) {
+        next('/auth');
+    } else if (to.meta.requiresNoAuth && userIsAuthenticated) {
+        next('/beats');
+    } else {
+        next();
+    }
+})
 
 export default router;
 
