@@ -42,7 +42,6 @@ export default {
   methods: {
     signOut() {
       // Sign Out
-
       this.$store.dispatch('authStore/signOut',
           {
             global: false,

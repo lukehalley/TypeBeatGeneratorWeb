@@ -91,6 +91,31 @@ export default {
             // When an error is thrown, the component which dispatched the action it can handle it.
             throw new Error(error.message || "Error Signing Out!")
         });
+    },
+    async checkIsUserAuthenticated(context) {
+
+        // Check User authenticated promise.
+        const currentAuthenticatedUserPromise = Auth.currentAuthenticatedUser();
+
+        // Check if the user is authenticated, if we get an error we know they are not.
+        await currentAuthenticatedUserPromise.then(function () {
+
+            // The user is logged in so return true.
+            console.log("User Logged In!")
+            context.commit('setUserAuth', {
+                auth: true
+            })
+
+
+        }).catch(() => {
+
+            // There was an error, so we know the user is not logged - return false.
+            console.log("User Logged Out!")
+            context.commit('setUserAuth', {
+                auth: false
+            })
+
+        });
     }
 
 };
