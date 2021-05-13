@@ -61,11 +61,11 @@ export default {
 
             // Add the newly created user to our local store.
             context.commit('setCurrentUser', {
-                user: user,
                 userConfirmed: user.attributes.email_verified,
                 userId: user.attributes.sub,
                 username: user.username,
                 email: user.attributes.email,
+                isAuthenticated: true
             })
 
         }).catch(error => {
@@ -92,30 +92,19 @@ export default {
             throw new Error(error.message || "Error Signing Out!")
         });
     },
-    async checkIsUserAuthenticated(context) {
-
-        // Check User authenticated promise.
-        const currentAuthenticatedUserPromise = Auth.currentAuthenticatedUser();
-
-        // Check if the user is authenticated, if we get an error we know they are not.
-        await currentAuthenticatedUserPromise.then(function () {
-
-            // The user is logged in so return true.
-            console.log("User Logged In!")
-            context.commit('setUserAuth', {
-                auth: true
-            })
-
-
-        }).catch(() => {
-
-            // There was an error, so we know the user is not logged - return false.
-            console.log("User Logged Out!")
-            context.commit('setUserAuth', {
-                auth: false
-            })
-
-        });
+    setUserData(context, payload) {
+        // state.userConfirmed = payload.userConfirmed;
+        // state.userId = payload.userId;
+        // state.username = payload.user.username;
+        // state.email = payload.user.email;
+        // state.isAuthenticated = payload.isAuthenticated;
+        context.commit('setCurrentUser', {
+            userConfirmed: payload.userConfirmed,
+            userId: payload.userId,
+            username: payload.username,
+            email: payload.email,
+            isAuthenticated: payload.isAuthenticated
+        })
     }
 
 };

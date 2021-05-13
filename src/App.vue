@@ -9,11 +9,35 @@
 
 <script>
 import TheHeader from "./components/layout/TheHeader";
+import {Auth} from 'aws-amplify';
+
 
 export default {
   components: {
     TheHeader,
   },
+  created() {
+    Auth.currentSession()
+        .then(data => {
+          // Add the newly created user to our local store.
+          this.$store.dispatch('authStore/setUserData', {
+            userConfirmed: data.idToken.payload.email_verified,
+            userId: data.idToken.payload.sub,
+            username: data.idToken.payload['cognito:username'],
+            email: data.idToken.payload.email,
+            isAuthenticated: true
+          })
+        })
+        .catch(() => {
+          this.$store.dispatch('authStore/setUserData', {
+            userConfirmed: null,
+            userId: null,
+            username: null,
+            email: null,
+            isAuthenticated: false
+          })
+        });
+  }
 };
 </script>
 
