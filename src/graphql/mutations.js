@@ -9,10 +9,8 @@ export const createBeat = /* GraphQL */ `
     createBeat(input: $input, condition: $condition) {
       id
       title
-      owner {
-        ownerId
-        ownerUsername
-      }
+      ownerId
+      ownerUsername
       thumbnail {
         region
         bucket
@@ -76,6 +74,7 @@ export const createBeat = /* GraphQL */ `
       free
       createdAt
       updatedAt
+      owner
     }
   }
 `;
@@ -87,10 +86,8 @@ export const updateBeat = /* GraphQL */ `
     updateBeat(input: $input, condition: $condition) {
       id
       title
-      owner {
-        ownerId
-        ownerUsername
-      }
+      ownerId
+      ownerUsername
       thumbnail {
         region
         bucket
@@ -154,6 +151,7 @@ export const updateBeat = /* GraphQL */ `
       free
       createdAt
       updatedAt
+      owner
     }
   }
 `;
@@ -165,10 +163,8 @@ export const deleteBeat = /* GraphQL */ `
     deleteBeat(input: $input, condition: $condition) {
       id
       title
-      owner {
-        ownerId
-        ownerUsername
-      }
+      ownerId
+      ownerUsername
       thumbnail {
         region
         bucket
@@ -232,6 +228,7 @@ export const deleteBeat = /* GraphQL */ `
       free
       createdAt
       updatedAt
+      owner
     }
   }
 `;

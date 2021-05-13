@@ -8,7 +8,6 @@ export default {
         return {
             user: null,
             userConfirmed: null,
-            userSub: null,
             userId: null,
             username: null,
             email: null,

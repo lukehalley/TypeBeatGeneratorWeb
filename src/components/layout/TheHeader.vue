@@ -14,6 +14,9 @@
         <li>
           <router-link to="/inbox">Inbox</router-link>
         </li>
+        <li>
+          <span @click="signOut()">Sign Out</span>
+        </li>
       </ul>
     </nav>
   </header>
@@ -28,6 +31,32 @@ export default {
     // this.isUserSignedIn = this.$store.getters["authStore/signedIn"];
     // console.log("isUserSignedIn " + this.isUserSignedIn)
   },
+  methods: {
+    signOut() {
+      // Sign Out
+
+      // this.isLoading = true;
+
+      console.log("before")
+      const currentUser = this.$store.getters["authStore/user"]
+      console.log(currentUser)
+
+      this.$store.dispatch('authStore/signOut',
+          {
+            global: false,
+          }
+      ).then(() => {
+        console.log("after")
+        const currentUser = this.$store.getters["authStore/user"]
+        console.log(currentUser)
+        this.$router.replace("/auth");
+      }).catch((err) => {
+        this.error = err
+      }).finally(() => {
+        // this.isLoading = false;
+      })
+    },
+  }
 }
 </script>
 
@@ -51,7 +80,8 @@ header a {
 
 a:active,
 a:hover,
-a.router-link-active {
+a.router-link-active,
+span {
   border: 1px solid #f391e3;
 }
 
@@ -64,9 +94,14 @@ h1 a {
   margin: 0;
 }
 
+span {
+  color: white;
+}
+
 h1 a:hover,
 h1 a:active,
-h1 a.router-link-active {
+h1 a.router-link-active,
+span {
   border-color: transparent;
 }
 

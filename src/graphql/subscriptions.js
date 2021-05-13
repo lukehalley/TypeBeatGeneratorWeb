@@ -2,14 +2,12 @@
 // this is an auto generated file. This will be overwritten
 
 export const onCreateBeat = /* GraphQL */ `
-  subscription OnCreateBeat {
-    onCreateBeat {
+  subscription OnCreateBeat($owner: String) {
+    onCreateBeat(owner: $owner) {
       id
       title
-      owner {
-        ownerId
-        ownerUsername
-      }
+      ownerId
+      ownerUsername
       thumbnail {
         region
         bucket
@@ -73,18 +71,17 @@ export const onCreateBeat = /* GraphQL */ `
       free
       createdAt
       updatedAt
+      owner
     }
   }
 `;
 export const onUpdateBeat = /* GraphQL */ `
-  subscription OnUpdateBeat {
-    onUpdateBeat {
+  subscription OnUpdateBeat($owner: String) {
+    onUpdateBeat(owner: $owner) {
       id
       title
-      owner {
-        ownerId
-        ownerUsername
-      }
+      ownerId
+      ownerUsername
       thumbnail {
         region
         bucket
@@ -148,18 +145,17 @@ export const onUpdateBeat = /* GraphQL */ `
       free
       createdAt
       updatedAt
+      owner
     }
   }
 `;
 export const onDeleteBeat = /* GraphQL */ `
-  subscription OnDeleteBeat {
-    onDeleteBeat {
+  subscription OnDeleteBeat($owner: String) {
+    onDeleteBeat(owner: $owner) {
       id
       title
-      owner {
-        ownerId
-        ownerUsername
-      }
+      ownerId
+      ownerUsername
       thumbnail {
         region
         bucket
@@ -223,6 +219,7 @@ export const onDeleteBeat = /* GraphQL */ `
       free
       createdAt
       updatedAt
+      owner
     }
   }
 `;

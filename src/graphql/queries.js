@@ -6,10 +6,8 @@ export const getBeat = /* GraphQL */ `
     getBeat(id: $id) {
       id
       title
-      owner {
-        ownerId
-        ownerUsername
-      }
+      ownerId
+      ownerUsername
       thumbnail {
         region
         bucket
@@ -73,6 +71,7 @@ export const getBeat = /* GraphQL */ `
       free
       createdAt
       updatedAt
+      owner
     }
   }
 `;
@@ -86,10 +85,8 @@ export const listBeats = /* GraphQL */ `
       items {
         id
         title
-        owner {
-          ownerId
-          ownerUsername
-        }
+        ownerId
+        ownerUsername
         thumbnail {
           region
           bucket
@@ -118,6 +115,7 @@ export const listBeats = /* GraphQL */ `
         free
         createdAt
         updatedAt
+        owner
       }
       nextToken
     }
