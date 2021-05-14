@@ -1,96 +1,13 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
-export const onCreateLibrary = /* GraphQL */ `
-  subscription OnCreateLibrary($owner: String) {
-    onCreateLibrary(owner: $owner) {
-      id
-      name
-      createdAt
-      updatedAt
-      owner
-      beats {
-        items {
-          id
-          libraryID
-          title
-          createdAt
-          updatedAt
-          public
-          bpm
-          schedule
-          free
-          owner
-        }
-        nextToken
-      }
-    }
-  }
-`;
-export const onUpdateLibrary = /* GraphQL */ `
-  subscription OnUpdateLibrary($owner: String) {
-    onUpdateLibrary(owner: $owner) {
-      id
-      name
-      createdAt
-      updatedAt
-      owner
-      beats {
-        items {
-          id
-          libraryID
-          title
-          createdAt
-          updatedAt
-          public
-          bpm
-          schedule
-          free
-          owner
-        }
-        nextToken
-      }
-    }
-  }
-`;
-export const onDeleteLibrary = /* GraphQL */ `
-  subscription OnDeleteLibrary($owner: String) {
-    onDeleteLibrary(owner: $owner) {
-      id
-      name
-      createdAt
-      updatedAt
-      owner
-      beats {
-        items {
-          id
-          libraryID
-          title
-          createdAt
-          updatedAt
-          public
-          bpm
-          schedule
-          free
-          owner
-        }
-        nextToken
-      }
-    }
-  }
-`;
 export const onCreateBeat = /* GraphQL */ `
   subscription OnCreateBeat($owner: String) {
     onCreateBeat(owner: $owner) {
       id
-      libraryID
       title
-      artist {
-        artistId
-        artistName
-      }
-      createdAt
-      updatedAt
+      ownerId
+      ownerUsername
       thumbnail {
         region
         bucket
@@ -135,23 +52,25 @@ export const onCreateBeat = /* GraphQL */ `
       schedule
       split {
         split1 {
-          paypalEmail
+          email
           percentage
         }
         split2 {
-          paypalEmail
+          email
           percentage
         }
         split3 {
-          paypalEmail
+          email
           percentage
         }
         split4 {
-          paypalEmail
+          email
           percentage
         }
       }
       free
+      createdAt
+      updatedAt
       owner
     }
   }
@@ -160,14 +79,9 @@ export const onUpdateBeat = /* GraphQL */ `
   subscription OnUpdateBeat($owner: String) {
     onUpdateBeat(owner: $owner) {
       id
-      libraryID
       title
-      artist {
-        artistId
-        artistName
-      }
-      createdAt
-      updatedAt
+      ownerId
+      ownerUsername
       thumbnail {
         region
         bucket
@@ -212,23 +126,25 @@ export const onUpdateBeat = /* GraphQL */ `
       schedule
       split {
         split1 {
-          paypalEmail
+          email
           percentage
         }
         split2 {
-          paypalEmail
+          email
           percentage
         }
         split3 {
-          paypalEmail
+          email
           percentage
         }
         split4 {
-          paypalEmail
+          email
           percentage
         }
       }
       free
+      createdAt
+      updatedAt
       owner
     }
   }
@@ -237,14 +153,9 @@ export const onDeleteBeat = /* GraphQL */ `
   subscription OnDeleteBeat($owner: String) {
     onDeleteBeat(owner: $owner) {
       id
-      libraryID
       title
-      artist {
-        artistId
-        artistName
-      }
-      createdAt
-      updatedAt
+      ownerId
+      ownerUsername
       thumbnail {
         region
         bucket
@@ -289,23 +200,25 @@ export const onDeleteBeat = /* GraphQL */ `
       schedule
       split {
         split1 {
-          paypalEmail
+          email
           percentage
         }
         split2 {
-          paypalEmail
+          email
           percentage
         }
         split3 {
-          paypalEmail
+          email
           percentage
         }
         split4 {
-          paypalEmail
+          email
           percentage
         }
       }
       free
+      createdAt
+      updatedAt
       owner
     }
   }

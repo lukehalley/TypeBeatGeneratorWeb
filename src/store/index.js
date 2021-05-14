@@ -1,17 +1,17 @@
-import { createStore } from 'vuex'
+import {createStore} from 'vuex'
 
-import usersModule from './modules/users/index'
+import authModule from './modules/auth/index'
 import beatsModule from './modules/beats/index'
 import messagesModule from './modules/messages/index'
 
 const store = createStore({
     modules: {
-        userStore: usersModule,
+        authStore: authModule,
         beatStore: beatsModule,
         messageStore: messagesModule
     },
     state() {
-        return { userId: 'usr1', libraryId: 'lib1' }
+        return {userId: 'usr1'}
     },
     getters: {
         userId(state) {

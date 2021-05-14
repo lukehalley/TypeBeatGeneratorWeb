@@ -1,8 +1,8 @@
 {
-    "identityPoolName": "tbgweb279572fb_identitypool_279572fb",
+    "identityPoolName": "beatcloud254276d6_identitypool_254276d6",
     "allowUnauthenticatedIdentities": false,
-    "resourceNameTruncated": "tbgweb279572fb",
-    "userPoolName": "tbgweb279572fb_userpool_279572fb",
+    "resourceNameTruncated": "beatcl254276d6",
+    "userPoolName": "beatcloud254276d6_userpool_254276d6",
     "autoVerifiedAttributes": [
         "email"
     ],
@@ -28,10 +28,10 @@
     "userpoolClientReadAttributes": [
         "email"
     ],
-    "userpoolClientLambdaRole": "tbgweb279572fb_userpoolclient_lambda_role",
+    "userpoolClientLambdaRole": "beatcl254276d6_userpoolclient_lambda_role",
     "userpoolClientSetAttributes": false,
-    "sharedId": "279572fb",
-    "resourceName": "tbgweb279572fb",
+    "sharedId": "254276d6",
+    "resourceName": "beatcloud254276d6",
     "authSelections": "identityPoolAndUserPool",
     "authRoleArn": {
         "Fn::GetAtt": [
@@ -45,12 +45,18 @@
             "Arn"
         ]
     },
-    "useDefault": "default",
-    "usernameAttributes": [
-        "email"
-    ],
+    "useDefault": "manual",
     "userPoolGroupList": [],
     "serviceName": "Cognito",
     "usernameCaseSensitive": false,
-    "dependsOn": []
+    "dependsOn": [],
+    "thirdPartyAuth": false,
+    "userPoolGroups": false,
+    "adminQueries": false,
+    "triggers": "{}",
+    "hostedUI": false,
+    "parentStack": {
+        "Ref": "AWS::StackId"
+    },
+    "permissions": []
 }

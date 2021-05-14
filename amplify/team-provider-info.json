@@ -1,19 +1,19 @@
 {
   "dev": {
     "awscloudformation": {
-      "AuthRoleName": "amplify-tbgweb-dev-145008-authRole",
-      "UnauthRoleArn": "arn:aws:iam::896073626980:role/amplify-tbgweb-dev-145008-unauthRole",
-      "AuthRoleArn": "arn:aws:iam::896073626980:role/amplify-tbgweb-dev-145008-authRole",
+      "AuthRoleName": "amplify-beatcloud-dev-124417-authRole",
+      "UnauthRoleArn": "arn:aws:iam::896073626980:role/amplify-beatcloud-dev-124417-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::896073626980:role/amplify-beatcloud-dev-124417-authRole",
       "Region": "eu-west-1",
-      "DeploymentBucketName": "amplify-tbgweb-dev-145008-deployment",
-      "UnauthRoleName": "amplify-tbgweb-dev-145008-unauthRole",
-      "StackName": "amplify-tbgweb-dev-145008",
-      "StackId": "arn:aws:cloudformation:eu-west-1:896073626980:stack/amplify-tbgweb-dev-145008/7ca67eb0-a75f-11eb-9adb-0282577bee79",
-      "AmplifyAppId": "d2x2tf2jboamr9"
+      "DeploymentBucketName": "amplify-beatcloud-dev-124417-deployment",
+      "UnauthRoleName": "amplify-beatcloud-dev-124417-unauthRole",
+      "StackName": "amplify-beatcloud-dev-124417",
+      "StackId": "arn:aws:cloudformation:eu-west-1:896073626980:stack/amplify-beatcloud-dev-124417/11a5d720-b185-11eb-aeab-0a7e1bb3ccfd",
+      "AmplifyAppId": "dt6s86hchwga2"
     },
     "categories": {
       "auth": {
-        "tbgweb279572fb": {}
+        "beatcloud254276d6": {}
       }
     }
   }

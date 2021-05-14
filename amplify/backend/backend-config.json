@@ -1,6 +1,14 @@
 {
+  "auth": {
+    "beatcloud254276d6": {
+      "service": "Cognito",
+      "providerPlugin": "awscloudformation",
+      "dependsOn": [],
+      "customAuth": false
+    }
+  },
   "api": {
-    "tbgweb": {
+    "beatcloud": {
       "service": "AppSync",
       "providerPlugin": "awscloudformation",
       "output": {
@@ -8,7 +16,7 @@
           "defaultAuthentication": {
             "authenticationType": "AMAZON_COGNITO_USER_POOLS",
             "userPoolConfig": {
-              "userPoolId": "authtbgweb279572fb"
+              "userPoolId": "authbeatcloud254276d6"
             }
           },
           "additionalAuthenticationProviders": [
@@ -16,20 +24,12 @@
               "authenticationType": "API_KEY",
               "apiKeyConfig": {
                 "apiKeyExpirationDays": 7,
-                "description": ""
+                "description": "beatcloud-apikey"
               }
             }
           ]
         }
       }
-    }
-  },
-  "auth": {
-    "tbgweb279572fb": {
-      "service": "Cognito",
-      "providerPlugin": "awscloudformation",
-      "dependsOn": [],
-      "customAuth": false
     }
   }
 }

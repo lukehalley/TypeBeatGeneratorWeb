@@ -1,5 +1,8 @@
 export default {
-    sendMessage(state, payload) {
+    addMessageLocally(state, payload) {
         state.messages.push(payload);
+    },
+    setMessagesLocally(state, payload) {
+        state.messages = payload;
     }
 }
