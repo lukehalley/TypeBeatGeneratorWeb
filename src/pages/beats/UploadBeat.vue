@@ -3,7 +3,7 @@
     <section>
       <base-card>
         <h2>Upload A Beat</h2>
-        <beat-upload @upload-beat="uploadBeat"></beat-upload>
+        <beat-form @upload-beat="uploadBeat"></beat-form>
       </base-card>
     </section>
     <div v-if="isLoading">
@@ -13,7 +13,7 @@
 </template>
 
 <script>
-import BeatUpload from "../../components/beats/BeatUpload.vue";
+import BeatForm from "../../components/beats/BeatForm.vue";
 
 export default {
   data() {
@@ -22,7 +22,7 @@ export default {
     }
   },
   components: {
-    BeatUpload,
+    BeatForm,
   },
   methods: {
     uploadBeat(formData) {

@@ -114,7 +114,7 @@ export default {
             throw new Error(error.errors[0].message || "Failed to upload beat!")
         }
     },
-    async getBeatsForUser(context, username) {
+    async getAllUserBeats(context, username) {
 
         // Fetch the beats.
         const fetchBeats = API.graphql({
@@ -234,6 +234,123 @@ export default {
             // If getting our beats caused an error, throw it.
             // When an error is thrown, the component which dispatched the action it can handle it.
             throw new Error(error.errors[0].message || "Failed to load beats!")
+        }
+    },
+    async getBeatById(context, id) {
+
+        // Fetch the beat.
+        const fetchBeatByID = API.graphql({
+            query: queries.getBeat(id),
+            authMode: 'API_KEY'
+        })
+
+        // Execute the get request, catch any errors.
+        try {
+            await (fetchBeatByID).then(function (beat) {
+
+                console.log(beat)
+
+                // Gets the list of beat.
+                // const recievedBeat = beat.data.listBeats.items;
+                //
+                // // Create new beat list.
+                // const newBeats = []
+                //
+                // for (const key in recievedBeat) {
+                //
+                //     // Get the beat tags.
+                //     var tags = {
+                //         tag1: recievedBeat[key].tags.tag1,
+                //         tag2: recievedBeat[key].tags.tag2,
+                //         tag3: recievedBeat[key].tags.tag3
+                //     }
+                //
+                //     // Remove any null tags.
+                //     let cleanedTags = cleanTags(tags)
+                //
+                //     try {
+                //
+                //         let beat = new Beat(
+                //             recievedBeat[key].id,
+                //             recievedBeat[key].title,
+                //             recievedBeat[key].ownerId,
+                //             recievedBeat[key].ownerUsername,
+                //             {
+                //                 region: recievedBeat[key].thumbnail.region,
+                //                 bucket: recievedBeat[key].thumbnail.bucket,
+                //                 key: recievedBeat[key].thumbnail.key
+                //             },
+                //             {
+                //                 mp3: {
+                //                     region: recievedBeat[key].audio.mp3.region,
+                //                     bucket: recievedBeat[key].audio.mp3.bucket,
+                //                     key: recievedBeat[key].audio.mp3.key,
+                //                 },
+                //                 wav: {
+                //                     region: recievedBeat[key].audio.wav.region,
+                //                     bucket: recievedBeat[key].audio.wav.bucket,
+                //                     key: recievedBeat[key].audio.wav.key,
+                //                 },
+                //                 zip: {
+                //                     region: recievedBeat[key].audio.zip.region,
+                //                     bucket: recievedBeat[key].audio.zip.bucket,
+                //                     key: recievedBeat[key].audio.zip.key,
+                //                 },
+                //             },
+                //             {
+                //                 genre1: recievedBeat[key].genre.genre1,
+                //                 genre2: recievedBeat[key].genre.genre2,
+                //                 genre3: recievedBeat[key].genre.genre3
+                //             },
+                //             cleanedTags,
+                //             true,
+                //             {
+                //                 mp3Price: recievedBeat[key].price.mp3Price,
+                //                 wavPrice: recievedBeat[key].price.wavPrice,
+                //                 TrackoutPrice: recievedBeat[key].price.TrackoutPrice,
+                //                 UnlimitedPrice: recievedBeat[key].price.UnlimitedPrice,
+                //                 ExclusivePrice: recievedBeat[key].price.ExclusivePrice
+                //             },
+                //             recievedBeat[key].bpm,
+                //             recievedBeat[key].schedule,
+                //             {
+                //                 split1: {
+                //                     email: recievedBeat[key].split.split1.email,
+                //                     percentage: recievedBeat[key].split.split1.percentage,
+                //                 },
+                //                 split2: {
+                //                     email: recievedBeat[key].split.split2.email,
+                //                     percentage: recievedBeat[key].split.split2.percentage,
+                //                 },
+                //                 split3: {
+                //                     email: recievedBeat[key].split.split3.email,
+                //                     percentage: recievedBeat[key].split.split3.percentage,
+                //                 },
+                //                 split4: {
+                //                     email: recievedBeat[key].split.split4.email,
+                //                     percentage: recievedBeat[key].split.split4.percentage,
+                //                 }
+                //             },
+                //             recievedBeat[key].free,
+                //         )
+                //
+                //         newBeats.push(beat)
+                //
+                //     } catch (e) {
+                //
+                //         console.error(e)
+                //
+                //     }
+                //
+                // }
+                //
+                // // Add the fetched beat to our local list of Beats.
+                // context.commit('setBeatsLocally', newBeats)
+            });
+        } catch (error) {
+            // If getting our beat caused an error, throw it.
+            // When an error is thrown, the component which dispatched the action it can handle it.
+            throw new Error(error.errors[0].message || "Failed to load beat!")
         }
     }
 };

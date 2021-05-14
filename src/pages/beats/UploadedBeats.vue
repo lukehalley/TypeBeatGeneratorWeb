@@ -58,6 +58,7 @@ export default {
   computed: {
     filteredBeats() {
       const beats = this.$store.getters["beatStore/beats"];
+      console.log(beats)
       return beats.filter((beat) => {
         if (beat.tags.tag1) {
           if (this.activeFilters.HipHop && beat.tags.tag1.includes("Hip Hop")) {
@@ -127,8 +128,9 @@ export default {
       const currentUserUsername = this.$store.getters["authStore/username"]
 
       try {
-        await this.$store.dispatch("beatStore/getBeatsForUser", currentUserUsername);
+        await this.$store.dispatch("beatStore/getAllUserBeats", currentUserUsername);
       } catch (err) {
+        console.log(err)
         this.error =
             err.message ||
             "Something went wrong while we were fetching your beats!";
