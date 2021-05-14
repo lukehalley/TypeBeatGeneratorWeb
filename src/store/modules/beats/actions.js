@@ -24,6 +24,8 @@ export default {
         // Remove any null tags.
         let cleanedTags = cleanTags(tags)
 
+        console.log(formData)
+
         // Create new Beat object from Beat Class.
         let newBeat = new Beat(
             null,
@@ -60,8 +62,8 @@ export default {
             cleanedTags,
             true,
             {
-                MP3Price: formData.prices.mp3Price,
-                WAVPrice: formData.prices.wavPrice,
+                mp3Price: formData.prices.mp3Price,
+                wavPrice: formData.prices.wavPrice,
                 TrackoutPrice: formData.prices.zipPrice,
                 UnlimitedPrice: formData.prices.zipPrice,
                 ExclusivePrice: formData.prices.zipPrice,
@@ -149,71 +151,79 @@ export default {
                     // Remove any null tags.
                     let cleanedTags = cleanTags(tags)
 
-                    let beat = new Beat(
-                        recievedBeats[key].id,
-                        recievedBeats[key].title,
-                        recievedBeats[key].owner.ownerId,
-                        recievedBeats[key].owner.ownerUsername,
-                        {
-                            region: recievedBeats[key].thumbnail.region,
-                            bucket: recievedBeats[key].thumbnail.bucket,
-                            key: recievedBeats[key].thumbnail.key
-                        },
-                        {
-                            mp3: {
-                                region: recievedBeats[key].audio.mp3.region,
-                                bucket: recievedBeats[key].audio.mp3.bucket,
-                                key: recievedBeats[key].audio.mp3.key,
-                            },
-                            wav: {
-                                region: recievedBeats[key].audio.wav.region,
-                                bucket: recievedBeats[key].audio.wav.bucket,
-                                key: recievedBeats[key].audio.wav.key,
-                            },
-                            zip: {
-                                region: recievedBeats[key].audio.zip.region,
-                                bucket: recievedBeats[key].audio.zip.bucket,
-                                key: recievedBeats[key].audio.zip.key,
-                            },
-                        },
-                        {
-                            genre1: recievedBeats[key].genre.genre1,
-                            genre2: recievedBeats[key].genre.genre2,
-                            genre3: recievedBeats[key].genre.genre3
-                        },
-                        cleanedTags,
-                        true,
-                        {
-                            MP3Price: recievedBeats[key].price.MP3Price,
-                            WAVPrice: recievedBeats[key].price.WAVPrice,
-                            TrackoutPrice: recievedBeats[key].price.TrackoutPrice,
-                            UnlimitedPrice: recievedBeats[key].price.UnlimitedPrice,
-                            ExclusivePrice: recievedBeats[key].price.ExclusivePrice
-                        },
-                        recievedBeats[key].bpm,
-                        recievedBeats[key].schedule,
-                        {
-                            split1: {
-                                email: recievedBeats[key].split.split1.email,
-                                percentage: recievedBeats[key].split.split1.percentage,
-                            },
-                            split2: {
-                                email: recievedBeats[key].split.split2.email,
-                                percentage: recievedBeats[key].split.split2.percentage,
-                            },
-                            split3: {
-                                email: recievedBeats[key].split.split3.email,
-                                percentage: recievedBeats[key].split.split3.percentage,
-                            },
-                            split4: {
-                                email: recievedBeats[key].split.split4.email,
-                                percentage: recievedBeats[key].split.split4.percentage,
-                            }
-                        },
-                        recievedBeats[key].free,
-                    )
+                    try {
 
-                    newBeats.push(beat)
+                        let beat = new Beat(
+                            recievedBeats[key].id,
+                            recievedBeats[key].title,
+                            recievedBeats[key].ownerId,
+                            recievedBeats[key].ownerUsername,
+                            {
+                                region: recievedBeats[key].thumbnail.region,
+                                bucket: recievedBeats[key].thumbnail.bucket,
+                                key: recievedBeats[key].thumbnail.key
+                            },
+                            {
+                                mp3: {
+                                    region: recievedBeats[key].audio.mp3.region,
+                                    bucket: recievedBeats[key].audio.mp3.bucket,
+                                    key: recievedBeats[key].audio.mp3.key,
+                                },
+                                wav: {
+                                    region: recievedBeats[key].audio.wav.region,
+                                    bucket: recievedBeats[key].audio.wav.bucket,
+                                    key: recievedBeats[key].audio.wav.key,
+                                },
+                                zip: {
+                                    region: recievedBeats[key].audio.zip.region,
+                                    bucket: recievedBeats[key].audio.zip.bucket,
+                                    key: recievedBeats[key].audio.zip.key,
+                                },
+                            },
+                            {
+                                genre1: recievedBeats[key].genre.genre1,
+                                genre2: recievedBeats[key].genre.genre2,
+                                genre3: recievedBeats[key].genre.genre3
+                            },
+                            cleanedTags,
+                            true,
+                            {
+                                mp3Price: recievedBeats[key].price.mp3Price,
+                                wavPrice: recievedBeats[key].price.wavPrice,
+                                TrackoutPrice: recievedBeats[key].price.TrackoutPrice,
+                                UnlimitedPrice: recievedBeats[key].price.UnlimitedPrice,
+                                ExclusivePrice: recievedBeats[key].price.ExclusivePrice
+                            },
+                            recievedBeats[key].bpm,
+                            recievedBeats[key].schedule,
+                            {
+                                split1: {
+                                    email: recievedBeats[key].split.split1.email,
+                                    percentage: recievedBeats[key].split.split1.percentage,
+                                },
+                                split2: {
+                                    email: recievedBeats[key].split.split2.email,
+                                    percentage: recievedBeats[key].split.split2.percentage,
+                                },
+                                split3: {
+                                    email: recievedBeats[key].split.split3.email,
+                                    percentage: recievedBeats[key].split.split3.percentage,
+                                },
+                                split4: {
+                                    email: recievedBeats[key].split.split4.email,
+                                    percentage: recievedBeats[key].split.split4.percentage,
+                                }
+                            },
+                            recievedBeats[key].free,
+                        )
+
+                        newBeats.push(beat)
+
+                    } catch (e) {
+
+                        console.error(e)
+
+                    }
 
                 }
 
