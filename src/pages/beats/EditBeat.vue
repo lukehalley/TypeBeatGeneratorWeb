@@ -28,6 +28,7 @@ export default {
     this.selectedBeat = this.$store.getters["beatStore/beats"].find(
         (beat) => beat.id === this.id
     );
+    console.log(this.selectedBeat);
   },
 };
 </script>

@@ -6,13 +6,9 @@ import UserAuth from '../pages/auth/UserAuth'
 
 // Beat Components
 import UploadBeat from '../pages/beats/UploadBeat'
-import BeatDetail from '../pages/beats/BeatDetail'
-import UploadedBeats from '../pages/beats/UploadedBeats'
-
-// Contact Components
-import Inbox from '../pages/messages/Inbox'
-
-// Misc Components
+import EditBeat from '../pages/beats/EditBeat'
+import UploadedBeats from '../pages/beats/UploadedBeats' // Contact Components
+import Inbox from '../pages/messages/Inbox' // Misc Components
 import NotFound from '../pages/misc/NotFound'
 
 const router = createRouter({
@@ -27,7 +23,7 @@ const router = createRouter({
 
         // Beat Routes
         {path: '/beats', component: UploadedBeats},
-        {path: '/beats/:id', component: BeatDetail, props: true},
+        {path: '/beats/:id', component: EditBeat, props: true},
         {path: '/upload', component: UploadBeat, meta: {requiresAuth: true}},
 
         // Account Routes
