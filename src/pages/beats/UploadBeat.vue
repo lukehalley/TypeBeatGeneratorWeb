@@ -3,7 +3,16 @@
     <section>
       <base-card>
         <h2>Upload A Beat</h2>
-        <beat-upload @upload-beat="uploadBeat"></beat-upload>
+        <beat-upload
+            @upload-beat="uploadBeat"
+            :beatTitle="{value: null, valid: true}"
+            :beatBPM = "{value: null, valid: true}"
+            :beatMp3Price = "{value: null, valid: true}"
+            :beatWavPrice = "{value: null, valid: true}"
+            :beatZipPrice = "{value: null, valid: true}"
+            :beatTags = "{value: [], valid: true}"
+            :beatMode = "{value: 'upload'}"
+        ></beat-upload>
       </base-card>
     </section>
     <div v-if="isLoading">
