@@ -235,5 +235,38 @@ export default {
             // When an error is thrown, the component which dispatched the action it can handle it.
             throw new Error(error.errors[0].message || "Failed to load beats!")
         }
+    },
+    async getBeatById(context, id) {
+
+        console.log("Getting beat with id:", id)
+
+        // Fetch the beat.
+        const fetchBeatByID = API.graphql({
+            query: queries.getBeat,
+            variables: {id: id},
+            authMode: 'API_KEY'
+        })
+
+        // Execute the get request, catch any errors.
+        try {
+            return new Promise((resolve, reject) => {
+                fetchBeatByID.then(function (beat) {
+
+                    console.log(beat.data['getBeat'])
+
+                    resolve(beat.data['getBeat'])
+
+                }).catch((error) => {
+                    reject(error)
+                });
+            })
+
+        } catch (error) {
+            console.log(error)
+            // If getting our beat caused an error, throw it.
+            // When an error is thrown, the component which dispatched the action it can handle it.
+            throw new Error(error.errors[0].message || "Failed to load beat!")
+        }
     }
+
 };

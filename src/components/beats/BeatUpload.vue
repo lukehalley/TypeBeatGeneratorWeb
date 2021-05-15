@@ -2,20 +2,20 @@
   <form @submit.prevent="submitBeatUploadForm">
     <div class="form-control" :class="{ invalid: !beatTitle.valid }">
       <label>Title</label>
-      <input v-model.trim="beatTitle.value" type="text" id="beatTitle" />
+      <input v-model.trim="beatTitle.value" type="text" id="beatTitle"/>
       <p v-if="!beatTitle.valid">Title must not be empty!</p>
     </div>
     <div class="form-control" :class="{ invalid: !beatBPM.valid }">
       <label>BPM</label>
-      <input v-model.number="beatBPM.value" type="number" id="beatBPM" />
+      <input v-model.number="beatBPM.value" type="number" id="beatBPM"/>
       <p v-if="!beatBPM.valid">BPM must be greater than 0 or empty!</p>
     </div>
     <div class="form-control" :class="{ invalid: !beatMp3Price.valid }">
       <label>MP3 Price</label>
       <input
-        v-model.number="beatMp3Price.value"
-        type="number"
-        id="beatMp3Price"
+          v-model.number="beatMp3Price.value"
+          type="number"
+          id="beatMp3Price"
       />
       <p v-if="!beatMp3Price.valid">
         MP3 price must be greater than 0 or empty!
@@ -24,9 +24,9 @@
     <div class="form-control" :class="{ invalid: !beatWavPrice.valid }">
       <label>WAV Price</label>
       <input
-        v-model.number="beatWavPrice.value"
-        type="number"
-        id="beatWavPrice"
+          v-model.number="beatWavPrice.value"
+          type="number"
+          id="beatWavPrice"
       />
       <p v-if="!beatWavPrice.valid">
         WAV price must be greater than 0 or empty!
@@ -35,9 +35,9 @@
     <div class="form-control" :class="{ invalid: !beatZipPrice.valid }">
       <label>ZIP Price</label>
       <input
-        v-model.number="beatZipPrice.value"
-        type="number"
-        id="beatZIPPrice"
+          v-model.number="beatZipPrice.value"
+          type="number"
+          id="beatZIPPrice"
       />
       <p v-if="!beatZipPrice.valid">
         ZIP price must be greater than 0 or empty!
@@ -48,31 +48,31 @@
       <div>
         <label for="beatTagHipHop">Hip Hop</label>
         <input
-          v-model="beatTags.value"
-          type="checkbox"
-          value="Hip Hop"
-          id="beatTagHipHop"
-          checked
+            v-model="beatTags.value"
+            type="checkbox"
+            value="Hip Hop"
+            id="beatTagHipHop"
+            checked
         />
       </div>
       <div>
         <label for="beatTagTrap">Trap</label>
         <input
-          v-model="beatTags.value"
-          type="checkbox"
-          value="Trap"
-          id="beatTagTrap"
-          checked
+            v-model="beatTags.value"
+            type="checkbox"
+            value="Trap"
+            id="beatTagTrap"
+            checked
         />
       </div>
       <div>
         <label for="beatTagAlt">Alt</label>
         <input
-          v-model="beatTags.value"
-          type="checkbox"
-          value="Alt"
-          id="beatTagAlt"
-          checked
+            v-model="beatTags.value"
+            type="checkbox"
+            value="Alt"
+            id="beatTagAlt"
+            checked
         />
       </div>
       <p v-if="!beatTags.valid">At least one beat tag must be selected!</p>
@@ -85,15 +85,16 @@
 <script>
 export default {
   emits: ["upload-beat"],
+  props: ["beatTitle", "beatBPM", "beatMp3Price", "beatWavPrice", "beatZipPrice", "beatTags"],
   data() {
     return {
-      beatTitle: { value: "Test", valid: true },
-      beatBPM: { value: 155, valid: true },
-      beatMp3Price: { value: 100, valid: true },
-      beatWavPrice: { value: 250, valid: true },
-      beatZipPrice: { value: 500, valid: true },
-      beatTags: { value: [], valid: true },
-      formIsValid: true,
+      // beatTitle: {value: "Test", valid: true},
+      // beatBPM: {value: 155, valid: true},
+      // beatMp3Price: {value: 100, valid: true},
+      // beatWavPrice: {value: 250, valid: true},
+      // beatZipPrice: {value: 500, valid: true},
+      // beatTags: {value: [], valid: true},
+      // formIsValid: true,
     };
   },
   methods: {
