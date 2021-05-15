@@ -25,10 +25,8 @@ export default {
         // Create new Beat object.
         const newBeat = {
             title: formData.title,
-            owner: {
-                ownerId: userId,
-                ownerUsername: username,
-            },
+            ownerId: userId,
+            ownerUsername: username,
             thumbnail: {
                 region: "eu-west-2",
                 bucket: "tbg-beats",
@@ -88,13 +86,15 @@ export default {
             free: false,
         }
 
-        console.log("Beat: ")
         console.log(newBeat)
 
         // Create the promise were going to use to create the new beat.
         const promise = API.graphql({
             query: createBeat,
-            variables: {input: newBeat},
+            variables: {
+                input: newBeat
+            },
+            authMode: 'AMAZON_COGNITO_USER_POOLS'
         });
 
         // Create the beat, catch any errors.
@@ -112,15 +112,30 @@ export default {
             throw new Error(error.errors[0].message || "Failed to upload beat!")
         }
     },
-    async getBeats(context) {
+    async getBeatsForUser(context, username) {
+
+        console.log(username)
+
         // Fetch the beats.
-        const fetchBeats = API.graphql({query: queries.listBeats})
+        const fetchBeats = API.graphql({
+            query: queries.listBeats,
+            variables: {
+                filter: {
+                    ownerUsername: {
+                        eq: username
+                    }
+                },
+            },
+            authMode: 'API_KEY'
+        })
 
         // Execute the get request, catch any errors.
         try {
             await (fetchBeats).then(function (beats) {
                 // Gets the list of beats.
                 const recievedBeats = beats.data.listBeats.items;
+
+                console.log(recievedBeats)
 
                 // Create new beats list.
                 const newBeats = []

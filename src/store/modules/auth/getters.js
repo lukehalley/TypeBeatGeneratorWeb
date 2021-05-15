@@ -1,4 +1,10 @@
 export default {
+    user(state) {
+        return state.user
+    },
+    userConfirmed(state) {
+        return state.userConfirmed
+    },
     userId(state) {
         return state.userId
     },

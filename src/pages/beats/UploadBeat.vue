@@ -29,7 +29,7 @@ export default {
       this.isLoading = true;
       this.$store.dispatch("beatStore/uploadBeat", formData);
       this.isLoading = false;
-      // this.$router.replace("/beats");
+      this.$router.replace("/beats");
     },
   },
 };

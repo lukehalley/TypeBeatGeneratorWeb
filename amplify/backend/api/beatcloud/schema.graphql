@@ -1,7 +1,11 @@
-type Beat @model @auth(rules: [{ allow: public, operations: [create, update, delete, read] }]) {
+type Beat @model @auth(rules: [
+    { allow: owner, operations: [create, update, delete, read] },
+    { allow: public, operations: [read] }
+]) {
     id: ID!
     title: String!
-    owner: Owner!
+    ownerId: String!
+    ownerUsername: String!
     thumbnail: S3Object
     audio: BeatFile!
     genre: Genre!

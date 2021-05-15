@@ -113,10 +113,6 @@ export default {
   },
   created() {
     this.loadBeats();
-    // const state = this.$store.getters["authStore/username"];
-    // console.log(state)
-    // const e = this.$store.getters["authStore/email"];
-    // console.log(e)
   },
   methods: {
     setFilters(updatedFilters) {
@@ -124,8 +120,11 @@ export default {
     },
     async loadBeats() {
       this.isLoading = true;
+
+      const currentUserUsername = this.$store.getters["authStore/username"]
+
       try {
-        await this.$store.dispatch("beatStore/getBeats");
+        await this.$store.dispatch("beatStore/getBeatsForUser", currentUserUsername);
       } catch (err) {
         this.error =
             err.message ||

@@ -2,14 +2,15 @@
   <base-card>
     <form @submit.prevent="submitAuth">
       <!-- Username Field - Sign Up Mode Only -->
-      <div v-if="authMode === 'signUp'" class="form-control" :class="{ invalid: !username.valid }">
+      <div v-if="authMode === 'signUp' || authMode === 'signIn'" class="form-control"
+           :class="{ invalid: !username.valid }">
         <label for="username">Username</label>
         <input type="username" id="username" v-model.trim="username.value">
         <p v-if="!username.valid">Please Enter A Valid Username!</p>
       </div>
 
       <!-- Email Field - Login & Sign Up Mode Only -->
-      <div v-if="authMode === 'signUp' || authMode === 'signIn'" class="form-control"
+      <div v-if="authMode === 'signUp'" class="form-control"
            :class="{ invalid: !email.valid }">
         <label for="email">Email</label>
         <input type="email" id="email" v-model.trim="email.value">
@@ -61,15 +62,15 @@ export default {
   data() {
     return {
       username: {
-        value: "luke123halley",
+        value: "",
         valid: true,
       },
       email: {
-        value: "luke123halley@gmail.com",
+        value: "",
         valid: true,
       },
       password: {
-        value: "0mkw4st5",
+        value: "",
         valid: true,
       },
       verificationCode: {
@@ -101,33 +102,54 @@ export default {
   methods: {
     submitAuth() {
       if (this.authMode === 'signIn') {
-        // Sign In
-        this.validatesignInForm()
-
+        this.signIn()
       } else if (this.authMode === 'signUp') {
-        // Sign Up
-        this.validatesignUpForm()
+        this.signUp()
+      }
+    },
+    signIn() {
+      // Sign In
+      this.validatesignInForm()
 
-        this.isLoading = true;
+      this.isLoading = true;
 
-        if (this.formIsValid) {
+      if (this.formIsValid) {
 
-          this.$store.dispatch('authStore/signUp',
-              {
-                username: this.username.value,
-                email: this.email.value,
-                password: this.password.value
-              }
-          ).then((result) => {
-            console.log(result)
-            this.isLoading = false;
-            this.authMode = 'verify'
-          }).catch((err) => {
-            this.isLoading = false;
-            this.error = err
-          })
+        this.$store.dispatch('authStore/signIn',
+            {
+              username: this.username.value,
+              password: this.password.value
+            }
+        ).then(() => {
+          this.$router.replace("/beats");
+        }).catch((err) => {
+          this.error = err
+        }).finally(() => {
+          this.isLoading = false;
+        })
+      }
+    },
+    signUp() {
+      // Sign Up
+      this.validateSignUpForm()
 
-        }
+      this.isLoading = true;
+
+      if (this.formIsValid) {
+
+        this.$store.dispatch('authStore/signUp',
+            {
+              username: this.username.value,
+              email: this.email.value,
+              password: this.password.value
+            }
+        ).then(() => {
+          this.authMode = 'verify'
+        }).catch((err) => {
+          this.error = err
+        }).finally(() => {
+          this.isLoading = false;
+        })
       }
     },
     async verifyAccount() {
@@ -140,30 +162,17 @@ export default {
               code: this.verificationCode.value,
             }
         ).then(() => {
-          this.isLoading = false;
           this.authMode = 'signIn'
         }).catch((err) => {
-          this.isLoading = false;
           this.error = err
+        }).finally(() => {
+          this.isLoading = false;
         })
-
-        // try {
-        //   this.$store.dispatch('authStore/confirmSignUp',
-        //       {
-        //         username: this.username.value,
-        //         code: this.verificationCode.value,
-        //       }
-        //   )
-        //   this.isLoading = false;
-        //   this.authMode = 'signIn'
-        // } catch (err) {
-        //   this.error = err.message || "Account Verification Failed - Please Insure You Inputted The Correct Code!"
-        // }
       }
     },
     switchAuthMode() {
       this.resetValidation();
-      // this.resetForm();
+
       if (this.authMode === 'signIn') {
         this.authMode = 'signUp'
       } else {
@@ -197,7 +206,7 @@ export default {
         this.formIsValid = true
       }
     },
-    validatesignUpForm() {
+    validateSignUpForm() {
       this.formIsValid = true
 
       if (this.username.value === "") {
@@ -231,6 +240,7 @@ export default {
       this.email.valid = true
       this.password.valid = true
     },
+
     resetForm() {
       this.formIsValid = true
       this.username.value = ""
