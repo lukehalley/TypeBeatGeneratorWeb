@@ -75,18 +75,18 @@
             checked
         />
       </div>
-      <p v-if="!tags.valid">At least one  tag must be selected!</p>
+      <p v-if="!tags.valid">At least one tag must be selected!</p>
     </div>
     <p v-if="!formIsValid">Please fix errors above and resubmit!</p>
     <base-button v-if="mode.value === 'upload'">Upload</base-button>
-    <base-button v-else-if="mode.value === 'save'">Save</base-button>
+    <base-button v-else-if="mode.value === 'update'">Save</base-button>
   </form>
 </template>
 
 <script>
 export default {
-  emits: ["upload-beat"],
-  props: ["beatTitle", "beatBPM", "beatMp3Price", "beatWavPrice", "beatZipPrice", "beatTags", "beatMode"],
+  emits: ["upload-beat", "update-beat"],
+  props: ["beatId", "beatTitle", "beatBPM", "beatMp3Price", "beatWavPrice", "beatZipPrice", "beatTags", "beatMode"],
   data() {
     return {
       title: this.beatTitle,
@@ -98,6 +98,11 @@ export default {
       mode: this.beatMode,
       formIsValid: true,
     };
+  },
+  created() {
+    if (this.mode.value === "update" && this.beatId.value) {
+      this.setBeatDetailsToEdit(this.beatId.value)
+    }
   },
   methods: {
     validateForm() {
@@ -149,24 +154,46 @@ export default {
       this.validateForm();
 
       if (this.formIsValid) {
+
         var prices = {
-          bpm: this.mp3Price.value,
+          mp3Price: this.mp3Price.value,
           wavPrice: this.wavPrice.value,
           zipPrice: this.zipPrice.value,
         };
-        const formData = {
+
+        var formData = {
+          id: null,
           title: this.title.value,
           bpm: this.bpm.value,
           prices: prices,
           tags: this.tags.value,
+          mode: this.mode.value
         };
-        this.$emit("upload-beat", formData);
-      } else {
-        return;
+
+        console.log(formData)
+
+        if (this.mode.value === "upload") {
+          this.$emit("upload-beat", formData);
+        } else if (this.mode.value === "update") {
+          formData['id'] = this.beatId.value
+          this.$emit("update-beat", formData);
+        }
+
       }
     },
     clearValidility(input) {
       this[input].valid = true;
+    },
+    setBeatDetailsToEdit(id) {
+      this.$store.dispatch("beatStore/getBeatById", id).then((result) => {
+        console.log(result)
+        this.title = {value: result.title, valid: true}
+        this.bpm = {value: result.bpm, valid: true}
+        this.mp3Price = {value: result.price.mp3Price, valid: true}
+        this.wavPrice = {value: result.price.wavPrice, valid: true}
+        this.zipPrice = {value: result.price.UnlimitedPrice, valid: true}
+        this.tags = {value: result.tags, valid: true}
+      })
     },
   },
 };

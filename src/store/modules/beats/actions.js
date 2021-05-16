@@ -1,6 +1,6 @@
 import {API} from 'aws-amplify';
-import {createBeat} from '@/graphql/mutations';
-import * as queries from '@/graphql/queries';
+import {createBeat, updateBeat} from '@/graphql/mutations';
+import {listBeats, getBeat} from '@/graphql/queries';
 
 import Beat from "@/store/classes/beatClass";
 
@@ -9,7 +9,12 @@ function cleanTags(tagObject) {
 }
 
 export default {
-    async uploadBeat(context, formData) {
+    async createOrUpdateBeat(context, formData) {
+
+        const mode = formData.mode
+
+        console.log("in mode", mode)
+
         // Get current user id and username.
         const userId = context.rootGetters["authStore/userId"]
         const username = context.rootGetters["authStore/username"]
@@ -24,11 +29,9 @@ export default {
         // Remove any null tags.
         let cleanedTags = cleanTags(tags)
 
-        console.log(formData)
-
         // Create new Beat object from Beat Class.
-        let newBeat = new Beat(
-            null,
+        let beat = new Beat(
+            formData.id,
             formData.title,
             userId,
             username,
@@ -91,34 +94,62 @@ export default {
             false,
         )
 
-        console.log("Creating a beat: ")
 
-        console.log(newBeat)
+        if (mode === "upload") {
 
-        // Create the promise were going to use to create the new beat.
-        const promise = API.graphql({
-            query: createBeat,
-            variables: {
-                input: newBeat
-            },
-            authMode: 'AMAZON_COGNITO_USER_POOLS'
-        });
-
-        // Create the beat, catch any errors.
-        try {
-            await promise.then(function () {
+            // Create the promise were going to use to create the new beat.
+            const promise = API.graphql({
+                query: createBeat,
+                variables: {
+                    input: beat
+                },
+                authMode: 'AMAZON_COGNITO_USER_POOLS'
             });
-        } catch (error) {
-            // If uploading our beat caused an error, throw it.
-            // When an error is thrown, the component which dispatched the action it can handle it.
-            throw new Error(error.errors[0].message || "Failed to upload beat!")
+
+            // Create the beat, catch any errors.
+            try {
+                await promise.then(function () {
+
+                });
+            } catch (error) {
+
+                // If uploading our beat caused an error, throw it.
+                // When an error is thrown, the component which dispatched the action it can handle it.
+                throw new Error(error.errors[0].message || "Failed to upload beat!")
+            }
+        } else if (mode === "update") {
+
+            console.log("updating to", beat)
+
+            // Create the promise were going to use to create the new beat.
+            const promise = API.graphql({
+                query: updateBeat,
+                variables: {
+                    input: beat
+                },
+                authMode: 'AMAZON_COGNITO_USER_POOLS'
+            });
+
+            // Create the beat, catch any errors.
+            try {
+                await promise.then(function () {
+
+                });
+            } catch (error) {
+                console.log(error)
+                // If uploading our beat caused an error, throw it.
+                // When an error is thrown, the component which dispatched the action it can handle it.
+                throw new Error(error.errors[0].message || "Failed to upload beat!")
+            }
         }
+
+
     },
     async getBeatsForUser(context, username) {
 
         // Fetch the beats.
         const fetchBeats = API.graphql({
-            query: queries.listBeats,
+            query: listBeats,
             variables: {
                 filter: {
                     ownerUsername: {
@@ -236,13 +267,12 @@ export default {
             throw new Error(error.errors[0].message || "Failed to load beats!")
         }
     },
-    async getBeatById(context, id) {
 
-        console.log("Getting beat with id:", id)
+    async getBeatById(context, id) {
 
         // Fetch the beat.
         const fetchBeatByID = API.graphql({
-            query: queries.getBeat,
+            query: getBeat,
             variables: {id: id},
             authMode: 'API_KEY'
         })
@@ -252,8 +282,6 @@ export default {
             return new Promise((resolve, reject) => {
                 fetchBeatByID.then(function (beat) {
 
-                    console.log(beat.data['getBeat'])
-
                     resolve(beat.data['getBeat'])
 
                 }).catch((error) => {
@@ -262,7 +290,7 @@ export default {
             })
 
         } catch (error) {
-            console.log(error)
+
             // If getting our beat caused an error, throw it.
             // When an error is thrown, the component which dispatched the action it can handle it.
             throw new Error(error.errors[0].message || "Failed to load beat!")

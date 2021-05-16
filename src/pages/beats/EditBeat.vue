@@ -2,50 +2,48 @@
   <div>
     <section>
       <base-card>
-        <header>
-          <h2>Edit {{ selectedBeat.title }} Details</h2>
-          <router-view></router-view>
-        </header>
+        <h2>Edit A Beat</h2>
+        <beat-upload
+            @update-beat="updateBeat"
+            :beatId="{value: id, valid: true}"
+            :beatTitle="{value: null, valid: true}"
+            :beatBPM="{value: null, valid: true}"
+            :beatMp3Price="{value: null, valid: true}"
+            :beatWavPrice="{value: null, valid: true}"
+            :beatZipPrice="{value: null, valid: true}"
+            :beatTags="{value: null, valid: true}"
+            :beatMode="{value: 'update'}"
+        ></beat-upload>
       </base-card>
     </section>
+    <div v-if="isLoading">
+      <base-spinner></base-spinner>
+    </div>
   </div>
 </template>
 
 <script>
+import BeatUpload from "../../components/beats/BeatUpload.vue";
+
 export default {
   props: ["id"],
   data() {
     return {
       selectedBeat: null,
+      isLoading: false,
     };
   },
-  computed: {
-    beatTitle() {
-      return "this.selectedBeat.title";
-    },
-  },
-  created() {
-    this.getBeatToEdit();
+  components: {
+    BeatUpload,
   },
   methods: {
-    async getBeatToEdit() {
-
-      // this.isLoading = true;
-
-      // const currentUserUsername = this.$store.getters["authStore/username"]
-
-      try {
-        await this.$store.dispatch("beatStore/getBeatById", this.id).then((beat) => {
-          console.log("got", beat)
-          this.selectedBeat = beat
-        });
-      } catch (err) {
-        this.error =
-            err.message ||
-            "Something went wrong while we were fetching the beat to edit!";
-      }
+    updateBeat(formData) {
+      console.log("Sending to update", formData)
+      this.isLoading = true;
+      this.$store.dispatch("beatStore/createOrUpdateBeat", formData);
       this.isLoading = false;
-    }
-  }
+      this.$router.replace("/beats");
+    },
+  },
 };
 </script>
