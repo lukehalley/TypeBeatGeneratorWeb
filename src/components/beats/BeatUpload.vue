@@ -170,9 +170,8 @@ export default {
           mode: this.mode.value
         };
 
-        console.log(formData)
-
         if (this.mode.value === "upload") {
+          console.log(formData)
           this.$emit("upload-beat", formData);
         } else if (this.mode.value === "update") {
           formData['id'] = this.beatId.value
@@ -186,7 +185,6 @@ export default {
     },
     setBeatDetailsToEdit(id) {
       this.$store.dispatch("beatStore/getBeatById", id).then((result) => {
-        console.log(result)
         this.title = {value: result.title, valid: true}
         this.bpm = {value: result.bpm, valid: true}
         this.mp3Price = {value: result.price.mp3Price, valid: true}

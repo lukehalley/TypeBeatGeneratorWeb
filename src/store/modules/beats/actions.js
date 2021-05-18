@@ -13,8 +13,6 @@ export default {
 
         const mode = formData.mode
 
-        console.log("in mode", mode)
-
         // Get current user id and username.
         const userId = context.rootGetters["authStore/userId"]
         const username = context.rootGetters["authStore/username"]
