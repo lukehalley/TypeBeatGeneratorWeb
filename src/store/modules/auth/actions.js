@@ -79,11 +79,9 @@ export default {
         const signOutPromise = Auth.signOut({
             global: payload.global,
         });
-        
-        // Sign Out the user, catch any errors.
-        await signOutPromise.then(function (result) {
 
-            console.log(result)
+        // Sign Out the user, catch any errors.
+        await signOutPromise.then(function () {
 
             // Add the newly created user to our local store.
             context.commit('resetCurrentUser')

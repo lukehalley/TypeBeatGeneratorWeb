@@ -86,8 +86,6 @@ export default {
             free: false,
         }
 
-        console.log(newBeat)
-
         // Create the promise were going to use to create the new beat.
         const promise = API.graphql({
             query: createBeat,
@@ -99,8 +97,8 @@ export default {
 
         // Create the beat, catch any errors.
         try {
-            await promise.then(function (result) {
-                console.log(result);
+            await promise.then(function () {
+
 
                 // Add the newely created beat to our local list of Beats.
                 context.commit('addBeatLocally', {...newBeat, id: userId})
@@ -108,13 +106,10 @@ export default {
         } catch (error) {
             // If uploading our beat caused an error, throw it.
             // When an error is thrown, the component which dispatched the action it can handle it.
-            console.log(error)
             throw new Error(error.errors[0].message || "Failed to upload beat!")
         }
     },
     async getBeatsForUser(context, username) {
-
-        console.log(username)
 
         // Fetch the beats.
         const fetchBeats = API.graphql({
@@ -134,8 +129,6 @@ export default {
             await (fetchBeats).then(function (beats) {
                 // Gets the list of beats.
                 const recievedBeats = beats.data.listBeats.items;
-
-                console.log(recievedBeats)
 
                 // Create new beats list.
                 const newBeats = []

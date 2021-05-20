@@ -14,8 +14,11 @@
         <li>
           <router-link to="/inbox">Inbox</router-link>
         </li>
-        <li>
+        <li v-if="isAuthenticated">
           <span @click="signOut()">Sign Out</span>
+        </li>
+        <li v-else>
+          <router-link to="/auth">Sign In</router-link>
         </li>
       </ul>
     </nav>
@@ -28,27 +31,23 @@ export default {
     return {};
   },
   mounted() {
-    // this.isUserSignedIn = this.$store.getters["authStore/signedIn"];
+    // this.isUserSignedIn = this.$store.getters["authStore/isAuthenticated"];
     // console.log("isUserSignedIn " + this.isUserSignedIn)
+  },
+  computed: {
+    isAuthenticated() {
+      return this.$store.getters["authStore/isAuthenticated"];
+    }
   },
   methods: {
     signOut() {
       // Sign Out
-
-      // this.isLoading = true;
-
-      console.log("before")
-      const currentUser = this.$store.getters["authStore/user"]
-      console.log(currentUser)
 
       this.$store.dispatch('authStore/signOut',
           {
             global: false,
           }
       ).then(() => {
-        console.log("after")
-        const currentUser = this.$store.getters["authStore/user"]
-        console.log(currentUser)
         this.$router.replace("/auth");
       }).catch((err) => {
         this.error = err
