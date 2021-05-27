@@ -17,7 +17,7 @@ import BaseSpinner from './components/ui/BaseSpinner'
 import BaseDialog from "@/components/ui/BaseDialog";
 
 // Global CSS
-import './index.css';
+import './index.css'
 
 Amplify.configure(aws_exports);
 applyPolyfills().then(() => {
