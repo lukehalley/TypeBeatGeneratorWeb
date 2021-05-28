@@ -13,8 +13,6 @@ export default {
 
         const mode = formData.mode
 
-        console.log("in mode", mode)
-
         // Get current user id and username.
         const userId = context.rootGetters["authStore/userId"]
         const username = context.rootGetters["authStore/username"]
@@ -119,8 +117,6 @@ export default {
             }
         } else if (mode === "update") {
 
-            console.log("updating to", beat)
-
             // Create the promise were going to use to create the new beat.
             const promise = API.graphql({
                 query: updateBeat,
@@ -136,7 +132,6 @@ export default {
 
                 });
             } catch (error) {
-                console.log(error)
                 // If uploading our beat caused an error, throw it.
                 // When an error is thrown, the component which dispatched the action it can handle it.
                 throw new Error(error.errors[0].message || "Failed to upload beat!")
@@ -157,7 +152,7 @@ export default {
                     }
                 },
             },
-            authMode: 'API_KEY'
+            authMode: 'AMAZON_COGNITO_USER_POOLS'
         })
 
         // Execute the get request, catch any errors.
@@ -274,7 +269,7 @@ export default {
         const fetchBeatByID = API.graphql({
             query: getBeat,
             variables: {id: id},
-            authMode: 'API_KEY'
+            authMode: 'AMAZON_COGNITO_USER_POOLS'
         })
 
         // Execute the get request, catch any errors.

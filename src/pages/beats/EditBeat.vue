@@ -38,7 +38,6 @@ export default {
   },
   methods: {
     updateBeat(formData) {
-      console.log("Sending to update", formData)
       this.isLoading = true;
       this.$store.dispatch("beatStore/createOrUpdateBeat", formData);
       this.isLoading = false;

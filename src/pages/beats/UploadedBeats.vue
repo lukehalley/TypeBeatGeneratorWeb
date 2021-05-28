@@ -1,4 +1,5 @@
 <template>
+
   <div>
     <base-dialog :show="!!error" title="An Error Occurred While Fetching Your Beats!" @close="handleError">
       <p>{{ error }}</p>
@@ -18,13 +19,13 @@
         <div v-else-if="hasBeats">
           <ul>
             <beat-item
+                v-for="beat in filteredBeats"
                 :id="beat.id"
                 :title="beat.title"
                 :artist="beat.artist"
                 :bpm="beat.bpm"
                 :prices="beat.prices"
                 :tags="beat.tags"
-                v-for="beat in filteredBeats"
                 :key="beat.id"
             ></beat-item>
           </ul>
@@ -58,6 +59,7 @@ export default {
   computed: {
     filteredBeats() {
       const beats = this.$store.getters["beatStore/beats"];
+
       return beats.filter((beat) => {
         if (beat.tags.tag1) {
           if (this.activeFilters.HipHop && beat.tags.tag1.includes("Hip Hop")) {
