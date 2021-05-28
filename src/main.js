@@ -19,6 +19,9 @@ import BaseDialog from "@/components/ui/BaseDialog";
 // Global CSS
 import './awsAmplify.css';
 
+// Tailwind CSS Import
+import './styles/main.css';
+
 Amplify.configure(aws_exports);
 applyPolyfills().then(() => {
     defineCustomElements(window);

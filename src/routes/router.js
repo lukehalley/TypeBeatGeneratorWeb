@@ -6,10 +6,10 @@ import UserAuth from '../pages/auth/UserAuth'
 
 // Beat Components
 import UploadBeat from '../pages/beats/UploadBeat'
-import EditBeat from '../pages/beats/EditBeat'
 import UploadedBeats from '../pages/beats/UploadedBeats' // Contact Components
 import Inbox from '../pages/messages/Inbox' // Misc Components
 import NotFound from '../pages/misc/NotFound'
+import EditBeat from "@/pages/beats/EditBeat";
 
 const router = createRouter({
     history: createWebHistory(),
@@ -23,8 +23,8 @@ const router = createRouter({
 
         // Beat Routes
         {path: '/beats', component: UploadedBeats},
-        {path: '/beats/:id', component: EditBeat, props: true},
-        {path: '/upload', component: UploadBeat, meta: {requiresAuth: true}},
+        {path: '/beats/:id', component: EditBeat, meta: {requiresAuth: true}, props: true},
+        {path: '/upload', component: UploadBeat, meta: {requiresAuth: true}, props: true},
 
         // Account Routes
         {path: '/auth', component: UserAuth, meta: {requiresNoAuth: true}},
