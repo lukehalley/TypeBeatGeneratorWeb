@@ -16,5 +16,8 @@ export default {
         state.username = null;
         state.email = null;
         state.isAuthenticated = false;
+    },
+    setUserAuth(state, payload) {
+        state.isAuthenticated = payload.auth;
     }
 }
