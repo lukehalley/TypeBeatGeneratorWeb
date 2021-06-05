@@ -1,5 +1,3 @@
-import store from "@/store/index";
-
 export default {
     user(state) {
         return state.user
@@ -17,7 +15,6 @@ export default {
         return state.email
     },
     isAuthenticated(state) {
-        store.dispatch('authStore/checkIsUserAuthenticated');
         return state.isAuthenticated
     }
 };
