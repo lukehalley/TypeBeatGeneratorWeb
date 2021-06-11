@@ -6,9 +6,6 @@
       </h1>
       <ul>
         <li>
-          <router-link to="/users">All Users</router-link>
-        </li>
-        <li>
           <router-link to="/beats">All Beats</router-link>
         </li>
         <li>
@@ -17,10 +14,49 @@
         <li>
           <router-link to="/inbox">Inbox</router-link>
         </li>
+        <li v-if="isAuthenticated">
+          <span @click="signOut()">Sign Out</span>
+        </li>
+        <li v-else>
+          <router-link to="/auth">Sign In</router-link>
+        </li>
       </ul>
     </nav>
   </header>
 </template>
+
+<script>
+export default {
+  data() {
+    return {};
+  },
+  mounted() {
+    // this.isUserSignedIn = this.$store.getters["authStore/isAuthenticated"];
+    // console.log("isUserSignedIn " + this.isUserSignedIn)
+  },
+  computed: {
+    isAuthenticated() {
+      return this.$store.getters["authStore/isAuthenticated"];
+    }
+  },
+  methods: {
+    signOut() {
+      // Sign Out
+      this.$store.dispatch('authStore/signOut',
+          {
+            global: false,
+          }
+      ).then(() => {
+        this.$router.replace("/auth");
+      }).catch((err) => {
+        this.error = err
+      }).finally(() => {
+        // this.isLoading = false;
+      })
+    },
+  }
+}
+</script>
 
 <style scoped>
 header {
@@ -42,7 +78,8 @@ header a {
 
 a:active,
 a:hover,
-a.router-link-active {
+a.router-link-active,
+span {
   border: 1px solid #f391e3;
 }
 
@@ -55,9 +92,14 @@ h1 a {
   margin: 0;
 }
 
+span {
+  color: white;
+}
+
 h1 a:hover,
 h1 a:active,
-h1 a.router-link-active {
+h1 a.router-link-active,
+span {
   border-color: transparent;
 }
 

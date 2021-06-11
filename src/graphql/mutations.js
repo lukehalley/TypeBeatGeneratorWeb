@@ -1,93 +1,6 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
-export const createLibrary = /* GraphQL */ `
-  mutation CreateLibrary(
-    $input: CreateLibraryInput!
-    $condition: ModelLibraryConditionInput
-  ) {
-    createLibrary(input: $input, condition: $condition) {
-      id
-      name
-      createdAt
-      updatedAt
-      owner
-      beats {
-        items {
-          id
-          libraryID
-          title
-          createdAt
-          updatedAt
-          public
-          bpm
-          schedule
-          free
-          owner
-        }
-        nextToken
-      }
-    }
-  }
-`;
-export const updateLibrary = /* GraphQL */ `
-  mutation UpdateLibrary(
-    $input: UpdateLibraryInput!
-    $condition: ModelLibraryConditionInput
-  ) {
-    updateLibrary(input: $input, condition: $condition) {
-      id
-      name
-      createdAt
-      updatedAt
-      owner
-      beats {
-        items {
-          id
-          libraryID
-          title
-          createdAt
-          updatedAt
-          public
-          bpm
-          schedule
-          free
-          owner
-        }
-        nextToken
-      }
-    }
-  }
-`;
-export const deleteLibrary = /* GraphQL */ `
-  mutation DeleteLibrary(
-    $input: DeleteLibraryInput!
-    $condition: ModelLibraryConditionInput
-  ) {
-    deleteLibrary(input: $input, condition: $condition) {
-      id
-      name
-      createdAt
-      updatedAt
-      owner
-      beats {
-        items {
-          id
-          libraryID
-          title
-          createdAt
-          updatedAt
-          public
-          bpm
-          schedule
-          free
-          owner
-        }
-        nextToken
-      }
-    }
-  }
-`;
 export const createBeat = /* GraphQL */ `
   mutation CreateBeat(
     $input: CreateBeatInput!
@@ -95,14 +8,9 @@ export const createBeat = /* GraphQL */ `
   ) {
     createBeat(input: $input, condition: $condition) {
       id
-      libraryID
       title
-      artist {
-        artistId
-        artistName
-      }
-      createdAt
-      updatedAt
+      ownerId
+      ownerUsername
       thumbnail {
         region
         bucket
@@ -147,23 +55,25 @@ export const createBeat = /* GraphQL */ `
       schedule
       split {
         split1 {
-          paypalEmail
+          email
           percentage
         }
         split2 {
-          paypalEmail
+          email
           percentage
         }
         split3 {
-          paypalEmail
+          email
           percentage
         }
         split4 {
-          paypalEmail
+          email
           percentage
         }
       }
       free
+      createdAt
+      updatedAt
       owner
     }
   }
@@ -175,14 +85,9 @@ export const updateBeat = /* GraphQL */ `
   ) {
     updateBeat(input: $input, condition: $condition) {
       id
-      libraryID
       title
-      artist {
-        artistId
-        artistName
-      }
-      createdAt
-      updatedAt
+      ownerId
+      ownerUsername
       thumbnail {
         region
         bucket
@@ -227,23 +132,25 @@ export const updateBeat = /* GraphQL */ `
       schedule
       split {
         split1 {
-          paypalEmail
+          email
           percentage
         }
         split2 {
-          paypalEmail
+          email
           percentage
         }
         split3 {
-          paypalEmail
+          email
           percentage
         }
         split4 {
-          paypalEmail
+          email
           percentage
         }
       }
       free
+      createdAt
+      updatedAt
       owner
     }
   }
@@ -255,14 +162,9 @@ export const deleteBeat = /* GraphQL */ `
   ) {
     deleteBeat(input: $input, condition: $condition) {
       id
-      libraryID
       title
-      artist {
-        artistId
-        artistName
-      }
-      createdAt
-      updatedAt
+      ownerId
+      ownerUsername
       thumbnail {
         region
         bucket
@@ -307,23 +209,25 @@ export const deleteBeat = /* GraphQL */ `
       schedule
       split {
         split1 {
-          paypalEmail
+          email
           percentage
         }
         split2 {
-          paypalEmail
+          email
           percentage
         }
         split3 {
-          paypalEmail
+          email
           percentage
         }
         split4 {
-          paypalEmail
+          email
           percentage
         }
       }
       free
+      createdAt
+      updatedAt
       owner
     }
   }

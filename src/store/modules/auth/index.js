@@ -5,7 +5,14 @@ import getters from './getters.js'
 export default {
     namespaced: true,
     state() {
-        return { userId: 'usr1', username: 'luke123halley', libraryId: 'lib1' }
+        return {
+            user: null,
+            userConfirmed: null,
+            userId: null,
+            username: null,
+            email: null,
+            isAuthenticated: false,
+        }
     },
     mutations,
     actions,

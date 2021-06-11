@@ -1,12 +1,8 @@
-import { API } from 'aws-amplify';
-import { createBeat } from '@/graphql/mutations';
-
 export default {
-    async uploadBeat(state, payload) {
-        // state.beats.push(payload);
-        await API.graphql({
-            query: createBeat,
-            variables: { input: payload },
-        });
+    addBeatLocally(state, payload) {
+        state.beats.push(payload);
+    },
+    setBeatsLocally(state, payload) {
+        state.beats = payload;
     }
 }
