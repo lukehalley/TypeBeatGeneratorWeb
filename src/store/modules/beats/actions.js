@@ -2,6 +2,8 @@ import {API} from 'aws-amplify';
 import {createBeat} from '@/graphql/mutations';
 import * as queries from '@/graphql/queries';
 
+import Beat from "@/store/classes/beatClass";
+
 function cleanTags(tagObject) {
     return Object.entries(tagObject).reduce((a, [k, v]) => (v == null ? a : (a[k] = v, a)), {})
 }
@@ -22,17 +24,18 @@ export default {
         // Remove any null tags.
         let cleanedTags = cleanTags(tags)
 
-        // Create new Beat object.
-        const newBeat = {
-            title: formData.title,
-            ownerId: userId,
-            ownerUsername: username,
-            thumbnail: {
+        // Create new Beat object from Beat Class.
+        let newBeat = new Beat(
+            null,
+            formData.title,
+            userId,
+            username,
+            {
                 region: "eu-west-2",
                 bucket: "tbg-beats",
                 key: "thumbnail.png"
             },
-            audio: {
+            {
                 mp3: {
                     region: "eu-west-2",
                     bucket: "tbg-beats",
@@ -49,23 +52,23 @@ export default {
                     key: "test.zip"
                 },
             },
-            genre: {
+            {
                 genre1: "Trap",
                 genre2: "Hip Hop",
                 genre3: "South"
             },
-            tags: cleanedTags,
-            public: true,
-            price: {
+            cleanedTags,
+            true,
+            {
                 MP3Price: formData.prices.mp3Price,
                 WAVPrice: formData.prices.wavPrice,
                 TrackoutPrice: formData.prices.zipPrice,
                 UnlimitedPrice: formData.prices.zipPrice,
                 ExclusivePrice: formData.prices.zipPrice,
             },
-            bpm: formData.bpm,
-            schedule: "None",
-            split: {
+            formData.bpm,
+            "None",
+            {
                 split1: {
                     email: "Collaborator 1",
                     percentage: 10
@@ -83,8 +86,12 @@ export default {
                     percentage: 10
                 }
             },
-            free: false,
-        }
+            false,
+        )
+
+        console.log("Creating a beat: ")
+
+        console.log(newBeat)
 
         // Create the promise were going to use to create the new beat.
         const promise = API.graphql({
@@ -98,10 +105,6 @@ export default {
         // Create the beat, catch any errors.
         try {
             await promise.then(function () {
-
-
-                // Add the newely created beat to our local list of Beats.
-                context.commit('addBeatLocally', {...newBeat, id: userId})
             });
         } catch (error) {
             // If uploading our beat caused an error, throw it.
@@ -127,6 +130,7 @@ export default {
         // Execute the get request, catch any errors.
         try {
             await (fetchBeats).then(function (beats) {
+
                 // Gets the list of beats.
                 const recievedBeats = beats.data.listBeats.items;
 
@@ -145,38 +149,69 @@ export default {
                     // Remove any null tags.
                     let cleanedTags = cleanTags(tags)
 
-                    const beat = {
-                        id: recievedBeats[key].id,
-                        title: recievedBeats[key].title,
-                        owner: {
-                            ownerId: recievedBeats[key].owner.ownerId,
-                            ownerUsername: recievedBeats[key].owner.ownerUsername
-                        },
-                        thumbnail: {
+                    let beat = new Beat(
+                        recievedBeats[key].id,
+                        recievedBeats[key].title,
+                        recievedBeats[key].owner.ownerId,
+                        recievedBeats[key].owner.ownerUsername,
+                        {
                             region: recievedBeats[key].thumbnail.region,
                             bucket: recievedBeats[key].thumbnail.bucket,
                             key: recievedBeats[key].thumbnail.key
                         },
-                        genre: {
+                        {
+                            mp3: {
+                                region: recievedBeats[key].audio.mp3.region,
+                                bucket: recievedBeats[key].audio.mp3.bucket,
+                                key: recievedBeats[key].audio.mp3.key,
+                            },
+                            wav: {
+                                region: recievedBeats[key].audio.wav.region,
+                                bucket: recievedBeats[key].audio.wav.bucket,
+                                key: recievedBeats[key].audio.wav.key,
+                            },
+                            zip: {
+                                region: recievedBeats[key].audio.zip.region,
+                                bucket: recievedBeats[key].audio.zip.bucket,
+                                key: recievedBeats[key].audio.zip.key,
+                            },
+                        },
+                        {
                             genre1: recievedBeats[key].genre.genre1,
                             genre2: recievedBeats[key].genre.genre2,
                             genre3: recievedBeats[key].genre.genre3
                         },
-                        tags: cleanedTags,
-                        public: true,
-                        price: {
+                        cleanedTags,
+                        true,
+                        {
                             MP3Price: recievedBeats[key].price.MP3Price,
                             WAVPrice: recievedBeats[key].price.WAVPrice,
                             TrackoutPrice: recievedBeats[key].price.TrackoutPrice,
                             UnlimitedPrice: recievedBeats[key].price.UnlimitedPrice,
                             ExclusivePrice: recievedBeats[key].price.ExclusivePrice
                         },
-                        bpm: recievedBeats[key].bpm,
-                        schedule: recievedBeats[key].schedule,
-                        free: recievedBeats[key].free,
-                        createdAt: recievedBeats[key].createdAt,
-                        updatedAt: recievedBeats[key].updatedAt
-                    }
+                        recievedBeats[key].bpm,
+                        recievedBeats[key].schedule,
+                        {
+                            split1: {
+                                email: recievedBeats[key].split.split1.email,
+                                percentage: recievedBeats[key].split.split1.percentage,
+                            },
+                            split2: {
+                                email: recievedBeats[key].split.split2.email,
+                                percentage: recievedBeats[key].split.split2.percentage,
+                            },
+                            split3: {
+                                email: recievedBeats[key].split.split3.email,
+                                percentage: recievedBeats[key].split.split3.percentage,
+                            },
+                            split4: {
+                                email: recievedBeats[key].split.split4.email,
+                                percentage: recievedBeats[key].split.split4.percentage,
+                            }
+                        },
+                        recievedBeats[key].free,
+                    )
 
                     newBeats.push(beat)
 

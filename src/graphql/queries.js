@@ -92,6 +92,23 @@ export const listBeats = /* GraphQL */ `
           bucket
           key
         }
+        audio {
+          mp3 {
+            region
+            bucket
+            key
+          }
+          wav {
+            region
+            bucket
+            key
+          }
+          zip {
+            region
+            bucket
+            key
+          }
+        }
         genre {
           genre1
           genre2
@@ -112,6 +129,24 @@ export const listBeats = /* GraphQL */ `
         }
         bpm
         schedule
+        split {
+          split1 {
+            email
+            percentage
+          }
+          split2 {
+            email
+            percentage
+          }
+          split3 {
+            email
+            percentage
+          }
+          split4 {
+            email
+            percentage
+          }
+        }
         free
         createdAt
         updatedAt
