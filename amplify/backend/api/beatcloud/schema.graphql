@@ -31,8 +31,8 @@ type BeatFile {
 }
 
 type Price {
-    MP3Price: Int
-    WAVPrice: Int
+    mp3Price: Int
+    wavPrice: Int
     TrackoutPrice: Int
     UnlimitedPrice: Int
     ExclusivePrice: Int

@@ -42,8 +42,8 @@ export const getBeat = /* GraphQL */ `
       }
       public
       price {
-        MP3Price
-        WAVPrice
+        mp3Price
+        wavPrice
         TrackoutPrice
         UnlimitedPrice
         ExclusivePrice
@@ -121,8 +121,8 @@ export const listBeats = /* GraphQL */ `
         }
         public
         price {
-          MP3Price
-          WAVPrice
+          mp3Price
+          wavPrice
           TrackoutPrice
           UnlimitedPrice
           ExclusivePrice

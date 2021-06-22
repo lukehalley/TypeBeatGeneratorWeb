@@ -1,5 +1,5 @@
 class Beat {
-    constructor(id, title, ownerId, ownerUsername, thumbnail, audio, genre, tags, isPublic, price, bpm, schedule, split, free) {
+    constructor(id, title, ownerId, ownerUsername, thumbnail, audio, genre, tags, isPublic, prices, bpm, schedule, split, free) {
         this.id = id;
         this.title = title;
         this.ownerId = ownerId;
@@ -34,11 +34,11 @@ class Beat {
         this.tags = tags;
         this.public = true;
         this.price = {
-            MP3Price: price.mp3Price,
-            WAVPrice: price.wavPrice,
-            TrackoutPrice: price.zipPrice,
-            UnlimitedPrice: price.zipPrice,
-            ExclusivePrice: price.zipPrice,
+            mp3Price: prices.mp3Price,
+            wavPrice: prices.wavPrice,
+            TrackoutPrice: prices.TrackoutPrice,
+            UnlimitedPrice: prices.UnlimitedPrice,
+            ExclusivePrice: prices.ExclusivePrice,
         };
         this.bpm = bpm;
         this.schedule = schedule;
