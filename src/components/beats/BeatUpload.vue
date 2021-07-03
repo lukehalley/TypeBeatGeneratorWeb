@@ -1,146 +1,148 @@
 <template>
   <form @submit.prevent="submitBeatUploadForm">
-    <div class="form-control" :class="{ invalid: !beatTitle.valid }">
+    <div class="form-control" :class="{ invalid: !title.valid }">
       <label>Title</label>
-      <input v-model.trim="beatTitle.value" type="text" id="beatTitle"/>
-      <p v-if="!beatTitle.valid">Title must not be empty!</p>
+      <input v-model.trim="title.value" type="text" id="title"/>
+      <p v-if="!title.valid">title must not be empty!</p>
     </div>
-    <div class="form-control" :class="{ invalid: !beatBPM.valid }">
+    <div class="form-control" :class="{ invalid: !bpm.valid }">
       <label>BPM</label>
-      <input v-model.number="beatBPM.value" type="number" id="beatBPM"/>
-      <p v-if="!beatBPM.valid">BPM must be greater than 0 or empty!</p>
+      <input v-model.number="bpm.value" type="number" id="bpm"/>
+      <p v-if="!bpm.valid">bpm must be greater than 0 or empty!</p>
     </div>
-    <div class="form-control" :class="{ invalid: !beatMp3Price.valid }">
+    <div class="form-control" :class="{ invalid: !mp3Price.valid }">
       <label>MP3 Price</label>
       <input
-          v-model.number="beatMp3Price.value"
+          v-model.number="mp3Price.value"
           type="number"
-          id="beatMp3Price"
+          id="mp3Price"
       />
-      <p v-if="!beatMp3Price.valid">
+      <p v-if="!mp3Price.valid">
         MP3 price must be greater than 0 or empty!
       </p>
     </div>
-    <div class="form-control" :class="{ invalid: !beatWavPrice.valid }">
+    <div class="form-control" :class="{ invalid: !wavPrice.valid }">
       <label>WAV Price</label>
       <input
-          v-model.number="beatWavPrice.value"
+          v-model.number="wavPrice.value"
           type="number"
-          id="beatWavPrice"
+          id="wavPrice"
       />
-      <p v-if="!beatWavPrice.valid">
+      <p v-if="!wavPrice.valid">
         WAV price must be greater than 0 or empty!
       </p>
     </div>
-    <div class="form-control" :class="{ invalid: !beatZipPrice.valid }">
+    <div class="form-control" :class="{ invalid: !zipPrice.valid }">
       <label>ZIP Price</label>
       <input
-          v-model.number="beatZipPrice.value"
+          v-model.number="zipPrice.value"
           type="number"
-          id="beatZIPPrice"
+          id="ZIPPrice"
       />
-      <p v-if="!beatZipPrice.valid">
+      <p v-if="!zipPrice.valid">
         ZIP price must be greater than 0 or empty!
       </p>
     </div>
-    <div class="form-control" :class="{ invalid: !beatTags.valid }">
+    <div class="form-control" :class="{ invalid: !tags.valid }">
       <label>Tags</label>
       <div>
-        <label for="beatTagHipHop">Hip Hop</label>
+        <label for="TagHipHop">Hip Hop</label>
         <input
-            v-model="beatTags.value"
+            v-model="tags.value"
             type="checkbox"
             value="Hip Hop"
-            id="beatTagHipHop"
+            id="TagHipHop"
             checked
         />
       </div>
       <div>
-        <label for="beatTagTrap">Trap</label>
+        <label for="TagTrap">Trap</label>
         <input
-            v-model="beatTags.value"
+            v-model="tags.value"
             type="checkbox"
             value="Trap"
-            id="beatTagTrap"
+            id="TagTrap"
             checked
         />
       </div>
       <div>
-        <label for="beatTagAlt">Alt</label>
+        <label for="TagAlt">Alt</label>
         <input
-            v-model="beatTags.value"
+            v-model="tags.value"
             type="checkbox"
             value="Alt"
-            id="beatTagAlt"
+            id="TagAlt"
             checked
         />
       </div>
-      <p v-if="!beatTags.valid">At least one beat tag must be selected!</p>
+      <p v-if="!tags.valid">At least one  tag must be selected!</p>
     </div>
     <p v-if="!formIsValid">Please fix errors above and resubmit!</p>
-    <base-button>Upload</base-button>
+    <base-button v-if="mode.value === 'upload'">Upload</base-button>
+    <base-button v-else-if="mode.value === 'save'">Save</base-button>
   </form>
 </template>
 
 <script>
 export default {
   emits: ["upload-beat"],
-  props: ["beatTitle", "beatBPM", "beatMp3Price", "beatWavPrice", "beatZipPrice", "beatTags"],
+  props: ["beatTitle", "beatBPM", "beatMp3Price", "beatWavPrice", "beatZipPrice", "beatTags", "beatMode"],
   data() {
     return {
-      // beatTitle: {value: "Test", valid: true},
-      // beatBPM: {value: 155, valid: true},
-      // beatMp3Price: {value: 100, valid: true},
-      // beatWavPrice: {value: 250, valid: true},
-      // beatZipPrice: {value: 500, valid: true},
-      // beatTags: {value: [], valid: true},
-      // formIsValid: true,
+      title: this.beatTitle,
+      bpm: this.beatBPM,
+      mp3Price: this.beatMp3Price,
+      wavPrice: this.beatWavPrice,
+      zipPrice: this.beatZipPrice,
+      tags: this.beatTags,
+      mode: this.beatMode,
+      formIsValid: true,
     };
   },
   methods: {
     validateForm() {
       this.formIsValid = true;
 
-      if (this.beatTitle.value === "") {
-        this.beatTitle.valid = false;
+      if (this.title.value === "") {
+        this.title.valid = false;
         this.formIsValid = false;
       } else {
-        this.beatTitle.valid = true;
+        this.title.valid = true;
       }
 
-      if (!this.beatBPM.value || this.beatBPM.value < 0) {
-        this.beatBPM.valid = false;
+      if (!this.bpm.value || this.bpm.value < 0) {
+        this.bpm.valid = false;
         this.formIsValid = false;
       } else {
-        this.beatBPM.valid = true;
+        this.bpm.valid = true;
       }
 
-      if (!this.beatMp3Price.value || this.beatMp3Price.value < 0) {
-        this.beatMp3Price.valid = false;
+      if (!this.mp3Price.value || this.mp3Price.value < 0) {
+        this.mp3Price.valid = false;
         this.formIsValid = false;
       } else {
-        this.beatMp3Price.valid = true;
+        this.mp3Price.valid = true;
       }
 
-      if (!this.beatWavPrice.value || this.beatWavPrice.value < 0) {
-        this.beatWavPrice.valid = false;
+      if (!this.wavPrice.value || this.wavPrice.value < 0) {
+        this.wavPrice.valid = false;
         this.formIsValid = false;
       } else {
-        this.beatWavPrice.valid = true;
+        this.wavPrice.valid = true;
       }
 
-      if (!this.beatZipPrice.value || this.beatZipPrice.value < 0) {
-        this.beatZipPrice.valid = false;
+      if (!this.zipPrice.value || this.zipPrice.value < 0) {
+        this.zipPrice.valid = false;
         this.formIsValid = false;
       } else {
-        this.beatZipPrice.valid = true;
+        this.zipPrice.valid = true;
       }
 
-      if (this.beatTags.value.length < 1) {
-        this.beatTags.valid = false;
+      if (this.tags.value.length < 1) {
+        this.tags.valid = false;
         this.formIsValid = false;
       } else {
-        this.beatTags.valid = true;
+        this.tags.valid = true;
       }
     },
     submitBeatUploadForm() {
@@ -148,15 +150,15 @@ export default {
 
       if (this.formIsValid) {
         var prices = {
-          mp3Price: this.beatMp3Price.value,
-          wavPrice: this.beatWavPrice.value,
-          zipPrice: this.beatZipPrice.value,
+          bpm: this.mp3Price.value,
+          wavPrice: this.wavPrice.value,
+          zipPrice: this.zipPrice.value,
         };
         const formData = {
-          title: this.beatTitle.value,
-          bpm: this.beatBPM.value,
+          title: this.title.value,
+          bpm: this.bpm.value,
           prices: prices,
-          tags: this.beatTags.value,
+          tags: this.tags.value,
         };
         this.$emit("upload-beat", formData);
       } else {
