@@ -76,10 +76,6 @@
         />
       </div>
 
-      <label class="inline-flex items-center mt-3">
-        <input type="checkbox" class="form-checkbox h-5 w-5 text-yellow-600" checked><span class="ml-2 text-gray-700">label</span>
-      </label>
-
       <p v-if="!tags.valid">At least one tag must be selected!</p>
     </div>
     <p v-if="!formIsValid">Please fix errors above and resubmit!</p>

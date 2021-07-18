@@ -10,6 +10,7 @@
     </div>
     <div class="actions">
       <base-button link mode="outline" :to="editLink">Edit</base-button>
+      <base-button mode="outline" @click="deleteBeat(id)">Delete</base-button>
       <base-button to="/beats/b1/purchase">Purchase Beat</base-button>
     </div>
   </li>
@@ -28,6 +29,15 @@ export default {
       return "/beats/" + this.id;
     },
   },
+  methods: {
+    deleteBeat(id) {
+      console.log("fired")
+      console.log(id)
+      this.$store.dispatch("beatStore/deleteBeatById", id).then((result) => {
+        console.log("nice", result)
+      })
+    },
+  }
 };
 </script>
 
