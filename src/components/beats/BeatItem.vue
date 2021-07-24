@@ -31,11 +31,18 @@ export default {
   },
   methods: {
     deleteBeat(id) {
-      console.log("fired")
-      console.log(id)
-      this.$store.dispatch("beatStore/deleteBeatById", id).then((result) => {
-        console.log("nice", result)
-      })
+
+      if(confirm("Do you really want to delete this beat?")){
+        this.$store.dispatch('beatStore/deleteBeatById', id
+        ).then(() => {
+          console.log("reloading")
+        }).catch((err) => {
+          this.error = err
+        }).finally(() => {
+          this.$emit("reloadData");
+        });
+      }
+
     },
   }
 };
