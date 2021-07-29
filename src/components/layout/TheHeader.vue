@@ -2,7 +2,7 @@
   <header>
     <nav>
       <h1>
-        <router-link to="/">Find A Producer</router-link>
+        <router-link to="/">beatchain.eth</router-link>
       </h1>
       <ul>
         <li>
@@ -10,9 +10,6 @@
         </li>
         <li>
           <router-link to="/upload">Upload</router-link>
-        </li>
-        <li>
-          <router-link to="/inbox">Inbox</router-link>
         </li>
         <li v-if="isAuthenticated">
           <span @click="signOut()">Sign Out</span>
@@ -31,8 +28,6 @@ export default {
     return {};
   },
   mounted() {
-    // this.isUserSignedIn = this.$store.getters["authStore/isAuthenticated"];
-    // console.log("isUserSignedIn " + this.isUserSignedIn)
   },
   computed: {
     isAuthenticated() {
