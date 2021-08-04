@@ -107,6 +107,9 @@
         },
         methods: {
             validateForm() {
+
+                console.log("CHECKING!")
+
                 this.formIsValid = true;
 
                 if (this.title.value === "") {
@@ -144,7 +147,9 @@
                     this.zipPrice.valid = true;
                 }
 
-                if (this.tags.value.length < 1) {
+                console.log("TAGS:", this.tags.value, "TAGS LNGTH:", this.tags.value.length);
+
+                if (this.tags.value.length < 1 || this.tags.value.every(element => element === null)) {
                     this.tags.valid = false;
                     this.formIsValid = false;
                 } else {
@@ -152,6 +157,7 @@
                 }
             },
             submitBeatUploadForm() {
+
                 this.validateForm();
 
                 if (this.formIsValid) {
@@ -167,15 +173,14 @@
                         title: this.title.value,
                         bpm: this.bpm.value,
                         prices: prices,
-                        tags: this.tags.value,
+                        tags: this.tags.value.filter(function(val) { return val !== null; }),
                         mode: this.mode.value
                     };
 
                     if (this.mode.value === "upload") {
-                        console.log(formData)
                         this.$emit("upload-beat", formData);
                     } else if (this.mode.value === "update") {
-                        formData['id'] = this.beatId.value
+                        formData['id'] = this.beatId.value;
                         this.$emit("update-beat", formData);
                     }
 
@@ -187,7 +192,6 @@
             setBeatDetailsToEdit(id) {
 
                 this.$store.dispatch("beatStore/getBeatById", id).then((result) => {
-
                     this.title = {value: result.title, valid: true};
                     this.bpm = {value: result.bpm, valid: true};
                     this.mp3Price = {value: result.price.mp3Price, valid: true};
