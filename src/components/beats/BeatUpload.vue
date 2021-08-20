@@ -108,8 +108,6 @@
         methods: {
             validateForm() {
 
-                console.log("CHECKING!")
-
                 this.formIsValid = true;
 
                 if (this.title.value === "") {
@@ -146,8 +144,6 @@
                 } else {
                     this.zipPrice.valid = true;
                 }
-
-                console.log("TAGS:", this.tags.value, "TAGS LNGTH:", this.tags.value.length);
 
                 if (this.tags.value.length < 1 || this.tags.value.every(element => element === null)) {
                     this.tags.valid = false;

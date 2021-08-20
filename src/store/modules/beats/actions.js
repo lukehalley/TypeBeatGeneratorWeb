@@ -25,7 +25,7 @@ export default {
             tag3: formData.tags[2]
         };
 
-        console.log(tags)
+
 
         // Remove any null tags.
         let cleanedTags = cleanTags(tags)
