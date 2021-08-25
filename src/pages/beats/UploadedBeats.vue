@@ -18,7 +18,7 @@
         </div>
         <div v-else-if="hasBeats">
           <ul>
-            <beat-item
+            <beat-item @reloadData="loadBeats"
                 v-for="beat in filteredBeats"
                 :id="beat.id"
                 :title="beat.title"

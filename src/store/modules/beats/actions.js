@@ -314,8 +314,7 @@ export default {
             return new Promise((resolve, reject) => {
                 deleteBeatByID.then(function () {
 
-                    console.log("deleted!")
-                    // resolve(beat.data['getBeat'])
+                    resolve()
 
                 }).catch((error) => {
                     reject(error)
