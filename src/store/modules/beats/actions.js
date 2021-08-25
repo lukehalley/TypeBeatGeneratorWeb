@@ -3,6 +3,7 @@ import {createBeat, updateBeat} from '@/graphql/mutations';
 import {listBeats, getBeat} from '@/graphql/queries';
 
 import Beat from "@/store/classes/beatClass";
+import {deleteBeat} from "../../../graphql/mutations";
 
 function cleanTags(tagObject) {
     return Object.entries(tagObject).reduce((a, [k, v]) => (v == null ? a : (a[k] = v, a)), {})
@@ -11,18 +12,20 @@ function cleanTags(tagObject) {
 export default {
     async createOrUpdateBeat(context, formData) {
 
-        const mode = formData.mode
+        const mode = formData.mode;
 
         // Get current user id and username.
-        const userId = context.rootGetters["authStore/userId"]
-        const username = context.rootGetters["authStore/username"]
+        const userId = context.rootGetters["authStore/userId"];
+        const username = context.rootGetters["authStore/username"];
 
         // Get the beats tags.
         var tags = {
             tag1: formData.tags[0],
             tag2: formData.tags[1],
             tag3: formData.tags[2]
-        }
+        };
+
+        console.log(tags)
 
         // Remove any null tags.
         let cleanedTags = cleanTags(tags)
@@ -140,6 +143,7 @@ export default {
 
 
     },
+
     async getBeatsForUser(context, username) {
 
         // Fetch the beats.
@@ -290,6 +294,40 @@ export default {
             // When an error is thrown, the component which dispatched the action it can handle it.
             throw new Error(error.errors[0].message || "Failed to load beat!")
         }
+    },
+
+    async deleteBeatById(context, id) {
+
+        // Fetch the beat.
+        const deleteBeatByID = API.graphql({
+            query: deleteBeat,
+            variables: {
+                input: {
+                    id: id
+                }
+            },
+            authMode: 'AMAZON_COGNITO_USER_POOLS'
+        })
+
+        // Execute the get request, catch any errors.
+        try {
+            return new Promise((resolve, reject) => {
+                deleteBeatByID.then(function () {
+
+                    resolve()
+
+                }).catch((error) => {
+                    reject(error)
+                });
+            })
+
+        } catch (error) {
+
+            // If getting our beat caused an error, throw it.
+            // When an error is thrown, the component which dispatched the action it can handle it.
+            throw new Error(error.errors[0].message || "Failed to delete beat!")
+        }
     }
+
 
 };
