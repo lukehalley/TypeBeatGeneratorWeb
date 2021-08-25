@@ -1,6 +1,6 @@
 {
     "identityPoolName": "beatcloud254276d6_identitypool_254276d6",
-    "allowUnauthenticatedIdentities": false,
+    "allowUnauthenticatedIdentities": true,
     "resourceNameTruncated": "beatcl254276d6",
     "userPoolName": "beatcloud254276d6_userpool_254276d6",
     "autoVerifiedAttributes": [

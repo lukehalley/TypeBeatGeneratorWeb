@@ -76,22 +76,52 @@
                 />
             </div>
 
-            <p v-if="!tags.valid">At least one tag must be selected!</p>
+            <div class="form-control">
+<!--            <div class="form-control" :class="{ invalid: !audio.valid }">-->
+                <label>Audio Files</label>
+                <div>
+                    <label for="mp3File">mp3</label>
+                    <div class="large-12 medium-12 small-12 cell">
+                        <input type="file" accept=".mp3" id="mp3File" ref="mp3File" v-on:change="handleFileUpload('mp3')"/>
+                    </div>
+                </div>
+                <div>
+                    <label for="wavFile">wav</label>
+                    <div class="large-12 medium-12 small-12 cell">
+                        <input type="file" accept=".wav" id="wavFile" ref="wavFile" v-on:change="handleFileUpload('wav')"/>
+                    </div>
+                </div>
+                <div>
+                    <label for="zipFile">zip</label>
+                    <div class="large-12 medium-12 small-12 cell">
+                        <input type="file" accept=".zip" id="zipFile" ref="zipFile" v-on:change="handleFileUpload('zip')"/>
+                    </div>
+                </div>
+
+                <p v-if="!tags.valid">Audio Files Invalid!</p>
+
+            </div>
         </div>
         <p v-if="!formIsValid">Please fix errors above and resubmit!</p>
         <base-button v-if="mode.value === 'upload'">Upload</base-button>
         <base-button v-else-if="mode.value === 'update'">Save</base-button>
+        <base-button mode="outline" @click="$router.go(-1)">Cancel</base-button>
     </form>
 </template>
 
 <script>
+    // import { Storage } from 'aws-amplify';
+
     export default {
         emits: ["upload-beat", "update-beat"],
-        props: ["beatId", "beatTitle", "beatBPM", "beatMp3Price", "beatWavPrice", "beatZipPrice", "beatTags", "beatMode"],
+        props: ["beatId", "beatTitle", "beatBPM", "beatMp3File", "beatWavFile", "beatZipFile", "beatMp3Price", "beatWavPrice", "beatZipPrice", "beatTags", "beatMode"],
         data() {
             return {
                 title: this.beatTitle,
                 bpm: this.beatBPM,
+                mp3File: this.beatMp3File,
+                wavFile: this.beatWavFile,
+                zipFile: this.beatZipFile,
                 mp3Price: this.beatMp3Price,
                 wavPrice: this.beatWavPrice,
                 zipPrice: this.beatZipPrice,
@@ -169,7 +199,9 @@
                         title: this.title.value,
                         bpm: this.bpm.value,
                         prices: prices,
-                        tags: this.tags.value.filter(function(val) { return val !== null; }),
+                        tags: this.tags.value.filter(function (val) {
+                            return val !== null;
+                        }),
                         mode: this.mode.value
                     };
 
@@ -188,15 +220,65 @@
             setBeatDetailsToEdit(id) {
 
                 this.$store.dispatch("beatStore/getBeatById", id).then((result) => {
+
+                    console.log(result)
+
                     this.title = {value: result.title, valid: true};
                     this.bpm = {value: result.bpm, valid: true};
+
                     this.mp3Price = {value: result.price.mp3Price, valid: true};
                     this.wavPrice = {value: result.price.wavPrice, valid: true};
                     this.zipPrice = {value: result.price.UnlimitedPrice, valid: true};
+
                     this.tags = {value: Object.values(result.tags), valid: true};
+
+                    // this.mp3File = {value: result.key.mp3File, valid: true};
+                    // this.wavFile = {value: result.key.wavFile, valid: true};
+                    // this.zipFile = {value: result.key.zipFile, valid: true};
 
                 })
             },
+            async handleFileUpload(fileType) {
+
+                var file = this.$refs[fileType + 'File'].files[0];
+
+                var name = file.name.replace(/\.[^/.]+$/, "");
+
+                var key = `beats/${name}/${fileType}/${file.name}`;
+
+                console.log(key)
+
+                // try {
+                //     await Storage.put(key, file, {
+                //         progressCallback(progress) {
+                //             console.log(`Uploaded: ${progress.loaded}/${progress.total}`);
+                //         }
+                //     })
+                // } catch (error) {
+                //     console.log(`Error uploading ${key} file:`, error);
+                // }
+
+                // this[fileType] = this.$refs[fileType].files[0];
+                //
+                // console.log("Uploading", this[fileType])
+
+                // switch (fileType)
+                // {
+                //     case "mp3":
+                //         this.mp3File = this.$refs.mp3File.files[0];
+                //         break;
+                //     case "wav":
+                //         this.wavFile = this.$refs.wavFile.files[0];
+                //         break;
+                //     case "zip":
+                //         this.zipFile = this.$refs.zipFile.files[0];
+                //         break;
+                //     default:
+                //         throw Error("Invalid File Type Upload!")
+                //
+                // }
+
+            }
         },
     };
 </script>

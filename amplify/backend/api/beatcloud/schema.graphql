@@ -19,6 +19,7 @@ type Beat @model @auth(rules: [
 }
 
 type S3Object {
+    filename: String!
     region: String!
     bucket: String!
     key: String!

@@ -5,12 +5,17 @@ import {listBeats, getBeat} from '@/graphql/queries';
 import Beat from "@/store/classes/beatClass";
 import {deleteBeat} from "../../../graphql/mutations";
 
+import awsmobile from '@/aws-exports';
+
 function cleanTags(tagObject) {
     return Object.entries(tagObject).reduce((a, [k, v]) => (v == null ? a : (a[k] = v, a)), {})
 }
 
 export default {
     async createOrUpdateBeat(context, formData) {
+
+        const currentS3Bucket = awsmobile.aws_user_files_s3_bucket;
+        const currentS3BucketRegion = awsmobile.aws_user_files_s3_bucket_region;
 
         const mode = formData.mode;
 
@@ -25,8 +30,6 @@ export default {
             tag3: formData.tags[2]
         };
 
-
-
         // Remove any null tags.
         let cleanedTags = cleanTags(tags)
 
@@ -37,25 +40,29 @@ export default {
             userId,
             username,
             {
-                region: "eu-west-2",
-                bucket: "tbg-beats",
-                key: "thumbnail.png"
+                filename: "thumbnail.png",
+                region: currentS3BucketRegion,
+                bucket: currentS3Bucket,
+                key: "fake/key/thumbnail.png"
             },
             {
                 mp3: {
-                    region: "eu-west-2",
-                    bucket: "tbg-beats",
-                    key: "test.mp3"
+                    filename: "test.mp3",
+                    region: currentS3BucketRegion,
+                    bucket: currentS3Bucket,
+                    key: "fake/key/test.mp3"
                 },
                 wav: {
-                    region: "eu-west-2",
-                    bucket: "tbg-beats",
-                    key: "test.wav"
+                    filename: "test.wav",
+                    region: currentS3BucketRegion,
+                    bucket: currentS3Bucket,
+                    key: "fake/key/test.wav"
                 },
                 zip: {
-                    region: "eu-west-2",
-                    bucket: "tbg-beats",
-                    key: "test.zip"
+                    filename: "test.zip",
+                    region: currentS3BucketRegion,
+                    bucket: currentS3Bucket,
+                    key: "fake/key/test.zip"
                 },
             },
             {

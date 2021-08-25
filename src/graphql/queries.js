@@ -9,22 +9,26 @@ export const getBeat = /* GraphQL */ `
       ownerId
       ownerUsername
       thumbnail {
+        filename
         region
         bucket
         key
       }
       audio {
         mp3 {
+          filename
           region
           bucket
           key
         }
         wav {
+          filename
           region
           bucket
           key
         }
         zip {
+          filename
           region
           bucket
           key
@@ -88,22 +92,26 @@ export const listBeats = /* GraphQL */ `
         ownerId
         ownerUsername
         thumbnail {
+          filename
           region
           bucket
           key
         }
         audio {
           mp3 {
+            filename
             region
             bucket
             key
           }
           wav {
+            filename
             region
             bucket
             key
           }
           zip {
+            filename
             region
             bucket
             key
