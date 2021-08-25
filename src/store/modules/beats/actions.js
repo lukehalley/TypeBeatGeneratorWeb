@@ -12,18 +12,20 @@ function cleanTags(tagObject) {
 export default {
     async createOrUpdateBeat(context, formData) {
 
-        const mode = formData.mode
+        const mode = formData.mode;
 
         // Get current user id and username.
-        const userId = context.rootGetters["authStore/userId"]
-        const username = context.rootGetters["authStore/username"]
+        const userId = context.rootGetters["authStore/userId"];
+        const username = context.rootGetters["authStore/username"];
 
         // Get the beats tags.
         var tags = {
             tag1: formData.tags[0],
             tag2: formData.tags[1],
             tag3: formData.tags[2]
-        }
+        };
+
+        console.log(tags)
 
         // Remove any null tags.
         let cleanedTags = cleanTags(tags)
@@ -92,8 +94,6 @@ export default {
             },
             false,
         )
-
-        console.log(beat)
 
 
         if (mode === "upload") {
