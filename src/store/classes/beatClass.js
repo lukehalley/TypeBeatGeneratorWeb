@@ -5,22 +5,26 @@ class Beat {
         this.ownerId = ownerId;
         this.ownerUsername = ownerUsername;
         this.thumbnail = {
+            filename: thumbnail.filename,
             region: thumbnail.region,
             bucket: thumbnail.bucket,
             key: thumbnail.key
         };
         this.audio = {
             mp3: {
+                filename: audio.mp3.filename,
                 region: audio.mp3.region,
                 bucket: audio.mp3.bucket,
                 key: audio.mp3.key,
             },
             wav: {
+                filename: audio.wav.filename,
                 region: audio.wav.region,
                 bucket: audio.wav.bucket,
                 key: audio.wav.key,
             },
             zip: {
+                filename: audio.zip.filename,
                 region: audio.zip.region,
                 bucket: audio.zip.bucket,
                 key: audio.zip.key,

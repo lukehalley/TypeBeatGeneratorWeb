@@ -76,25 +76,40 @@
                 />
             </div>
 
-            <div class="form-control">
-<!--            <div class="form-control" :class="{ invalid: !audio.valid }">-->
-                <label>Audio Files</label>
+            <label>Audio Files</label>
+            <div class="form-control" :class="{ invalid: !mp3File.valid }">
                 <div>
                     <label for="mp3File">mp3</label>
                     <div class="large-12 medium-12 small-12 cell">
-                        <input type="file" accept=".mp3" id="mp3File" ref="mp3File" v-on:change="handleFileUpload('mp3')"/>
+                        <input type="file" accept=".mp3" id="mp3File" ref="mp3File"
+                               v-on:change="handleFileUpload('mp3')"/>
                     </div>
                 </div>
+
+                <p v-if="!tags.valid">MP3 File Invalid!</p>
+
+            </div>
+
+            <div class="form-control" :class="{ invalid: !wavFile.valid }">
                 <div>
                     <label for="wavFile">wav</label>
                     <div class="large-12 medium-12 small-12 cell">
-                        <input type="file" accept=".wav" id="wavFile" ref="wavFile" v-on:change="handleFileUpload('wav')"/>
+                        <input type="file" accept=".wav" id="wavFile" ref="wavFile"
+                               v-on:change="handleFileUpload('wav')"/>
                     </div>
                 </div>
+
+                <p v-if="!tags.valid">WAV File Invalid!</p>
+
+            </div>
+
+            <div class="form-control" :class="{ invalid: !zipFile.valid }">
+
                 <div>
                     <label for="zipFile">zip</label>
                     <div class="large-12 medium-12 small-12 cell">
-                        <input type="file" accept=".zip" id="zipFile" ref="zipFile" v-on:change="handleFileUpload('zip')"/>
+                        <input type="file" accept=".zip" id="zipFile" ref="zipFile"
+                               v-on:change="handleFileUpload('zip')"/>
                     </div>
                 </div>
 
@@ -194,11 +209,27 @@
                         zipPrice: this.zipPrice.value,
                     };
 
+                    var audio = {
+                        mp3: {
+                            filename: this.mp3File.value.filename,
+                            key: this.mp3File.value.key
+                        },
+                        wav: {
+                            filename: this.wavFile.value.filename,
+                            key: this.wavFile.value.key
+                        },
+                        zip: {
+                            filename: this.zipFile.value.filename,
+                            key: this.zipFile.value.key
+                        },
+                    };
+
                     var formData = {
                         id: null,
                         title: this.title.value,
                         bpm: this.bpm.value,
                         prices: prices,
+                        audio: audio,
                         tags: this.tags.value.filter(function (val) {
                             return val !== null;
                         }),
@@ -221,8 +252,6 @@
 
                 this.$store.dispatch("beatStore/getBeatById", id).then((result) => {
 
-                    console.log(result)
-
                     this.title = {value: result.title, valid: true};
                     this.bpm = {value: result.bpm, valid: true};
 
@@ -232,21 +261,34 @@
 
                     this.tags = {value: Object.values(result.tags), valid: true};
 
-                    // this.mp3File = {value: result.key.mp3File, valid: true};
-                    // this.wavFile = {value: result.key.wavFile, valid: true};
-                    // this.zipFile = {value: result.key.zipFile, valid: true};
+                    this.mp3File = {value: {filename: result.audio.mp3.filename, key: result.audio.mp3.key}, valid: true};
+                    this.wavFile = {value: {filename: result.audio.wav.filename, key: result.audio.wav.key}, valid: true};
+                    this.zipFile = {value: {filename: result.audio.zip.filename, key: result.audio.zip.key}, valid: true};
+
+                    console.log(!this.mp3File.valid);
 
                 })
             },
             async handleFileUpload(fileType) {
 
-                var file = this.$refs[fileType + 'File'].files[0];
+                const propName = [fileType + 'File'];
 
-                var name = file.name.replace(/\.[^/.]+$/, "");
+                const file = this.$refs[propName].files[0];
 
-                var key = `beats/${name}/${fileType}/${file.name}`;
+                const filename = file.name.replace(/\.[^/.]+$/, "");
 
-                console.log(key)
+                const key = `beats/${filename}/${fileType}/${file.name}`;
+
+                this[propName].value.filename = filename;
+                this[propName].value.key = key;
+
+                // this.wavFile.value.filename = filename;
+                // this.wavFile.value.key = key;
+                //
+                // this.zipFile.value.filename = filename;
+                // this.zipFile.value.key = key;
+
+                // console.log(key)
 
                 // try {
                 //     await Storage.put(key, file, {

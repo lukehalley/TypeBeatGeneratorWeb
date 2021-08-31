@@ -47,22 +47,22 @@ export default {
             },
             {
                 mp3: {
-                    filename: "test.mp3",
+                    filename: formData.audio.mp3.filename,
                     region: currentS3BucketRegion,
                     bucket: currentS3Bucket,
-                    key: "fake/key/test.mp3"
+                    key: formData.audio.mp3.key
                 },
                 wav: {
-                    filename: "test.wav",
+                    filename: formData.audio.mp3.filename,
                     region: currentS3BucketRegion,
                     bucket: currentS3Bucket,
-                    key: "fake/key/test.wav"
+                    key: formData.audio.mp3.key
                 },
                 zip: {
-                    filename: "test.zip",
+                    filename: formData.audio.mp3.filename,
                     region: currentS3BucketRegion,
                     bucket: currentS3Bucket,
-                    key: "fake/key/test.zip"
+                    key: formData.audio.mp3.key
                 },
             },
             {
@@ -100,7 +100,7 @@ export default {
                 }
             },
             false,
-        )
+        );
 
 
         if (mode === "upload") {
@@ -202,16 +202,19 @@ export default {
                             },
                             {
                                 mp3: {
+                                    filename: recievedBeats[key].audio.mp3.filename,
                                     region: recievedBeats[key].audio.mp3.region,
                                     bucket: recievedBeats[key].audio.mp3.bucket,
                                     key: recievedBeats[key].audio.mp3.key,
                                 },
                                 wav: {
+                                    filename: recievedBeats[key].audio.wav.filename,
                                     region: recievedBeats[key].audio.wav.region,
                                     bucket: recievedBeats[key].audio.wav.bucket,
                                     key: recievedBeats[key].audio.wav.key,
                                 },
                                 zip: {
+                                    filename: recievedBeats[key].audio.zip.filename,
                                     region: recievedBeats[key].audio.zip.region,
                                     bucket: recievedBeats[key].audio.zip.bucket,
                                     key: recievedBeats[key].audio.zip.key,
